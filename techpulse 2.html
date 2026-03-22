@@ -132,7 +132,7 @@ document.getElementById("cB").innerHTML=CATS.map(function(c){return'<button clas
 
 function log(m){logs.push(m);var lb=document.getElementById("logBox");lb.style.display="block";lb.textContent=logs.slice(-15).join("\n")}
 
-// ===== 3 PROXY FALLBACK =====
+// ===== 5 PROXY FALLBACK =====
 function tryFetch(url,timeout){
   return new Promise(function(ok,fail){
     var c=new AbortController();
@@ -141,59 +141,91 @@ function tryFetch(url,timeout){
   });
 }
 
+function tryText(url,timeout){
+  return new Promise(function(ok,fail){
+    var c=new AbortController();
+    var t=setTimeout(function(){c.abort();fail(new Error("timeout"))},timeout||8000);
+    fetch(url,{signal:c.signal}).then(function(r){clearTimeout(t);return r.text()}).then(ok).catch(function(e){clearTimeout(t);fail(e)});
+  });
+}
+
 function fetchFeed(feed){
   return new Promise(function(resolve){
     var name=feed.n,done=false;
     function res(v){if(!done){done=true;resolve(v)}}
-    // Proxy 1: rss2json
-    log("→ "+name+": rss2json...");
-    tryFetch("https://api.rss2json.com/v1/api.json?rss_url="+encodeURIComponent(feed.u)+"&count=15",10000)
-    .then(function(d){
-      if(d.status==="ok"&&d.items&&d.items.length>0){
-        log("✅ "+name+": "+d.items.length+" (rss2json)");
-        res(d.items.map(function(i){return mkI(i,feed)}).filter(function(n){return n.t.length>5}));
-      }else{throw new Error("no items")}
-    })
-    .catch(function(e){
-      log("❌ "+name+": rss2json fail ("+e.message+")");
-      // Proxy 2: corsproxy.io as text with timeout
-      log("→ "+name+": corsproxy...");
-      var cc=new AbortController();var ct=setTimeout(function(){cc.abort()},10000);
-      fetch("https://corsproxy.io/?"+encodeURIComponent(feed.u),{signal:cc.signal})
-      .then(function(r){clearTimeout(ct);return r.text()})
-      .then(function(xml){
-        var items=pXml(xml,feed);
-        if(items.length>0){
-          log("✅ "+name+": "+items.length+" (corsproxy)");
-          res(items);
-        }else{throw new Error("no items")}
-      })
-      .catch(function(e2){
-        clearTimeout(ct);
-        log("❌ "+name+": corsproxy fail ("+e2.message+")");
-        // Proxy 3: allorigins
+
+    // Try all proxies in sequence
+    var proxies=[
+      // 1. rss2json (returns JSON)
+      function(){
+        log("→ "+name+": rss2json...");
+        return tryFetch("https://api.rss2json.com/v1/api.json?rss_url="+encodeURIComponent(feed.u)+"&count=15",10000)
+        .then(function(d){
+          if(d.status==="ok"&&d.items&&d.items.length>0){
+            return d.items.map(function(i){return mkI(i,feed)}).filter(function(n){return n.t.length>5});
+          }else{throw new Error("no items")}
+        });
+      },
+      // 2. corsproxy.io (returns raw XML)
+      function(){
+        log("→ "+name+": corsproxy...");
+        return tryText("https://corsproxy.io/?"+encodeURIComponent(feed.u),10000)
+        .then(function(xml){
+          var items=pXml(xml,feed);
+          if(items.length>0)return items;
+          throw new Error("no items");
+        });
+      },
+      // 3. allorigins (returns JSON with contents)
+      function(){
         log("→ "+name+": allorigins...");
-        tryFetch("https://api.allorigins.win/get?url="+encodeURIComponent(feed.u),10000)
+        return tryFetch("https://api.allorigins.win/get?url="+encodeURIComponent(feed.u),10000)
         .then(function(d){
           if(d&&d.contents){
             var items=pXml(d.contents,feed);
-            if(items.length>0){
-              log("✅ "+name+": "+items.length+" (allorigins)");
-              res(items);
-            }else{
-              log("❌ "+name+": allorigins 0 items");
-              res([]);
-            }
-          }else{log("❌ "+name+": allorigins empty");res([])}
-        })
-        .catch(function(e3){
-          log("❌ "+name+": allorigins fail ("+e3.message+")");
-          res([]);
+            if(items.length>0)return items;
+          }
+          throw new Error("no items");
         });
+      },
+      // 4. corsproxy.org (returns raw)
+      function(){
+        log("→ "+name+": corsproxy.org...");
+        return tryText("https://corsproxy.org/?"+encodeURIComponent(feed.u),10000)
+        .then(function(xml){
+          var items=pXml(xml,feed);
+          if(items.length>0)return items;
+          throw new Error("no items");
+        });
+      },
+      // 5. thingproxy (returns raw)
+      function(){
+        log("→ "+name+": thingproxy...");
+        return tryText("https://thingproxy.freeboard.io/fetch/"+feed.u,10000)
+        .then(function(xml){
+          var items=pXml(xml,feed);
+          if(items.length>0)return items;
+          throw new Error("no items");
+        });
+      }
+    ];
+
+    function tryNext(idx){
+      if(idx>=proxies.length){log("❌ "+name+": tüm proxy'ler başarısız");res([]);return}
+      proxies[idx]()
+      .then(function(items){
+        log("✅ "+name+": "+items.length+" haber");
+        res(items);
+      })
+      .catch(function(e){
+        log("❌ "+name+": fail ("+e.message+")");
+        tryNext(idx+1);
       });
-    });
+    }
+    tryNext(0);
+
     // Ultimate timeout
-    setTimeout(function(){res([])},30000);
+    setTimeout(function(){res([])},45000);
   });
 }
 
@@ -253,7 +285,20 @@ function go(){
   document.getElementById("fM").innerHTML='<div class="ld"><div class="sp"></div><div style="font-size:11px;color:var(--t3)">'+FEEDS.length+' kaynak taranıyor...</div></div>';
   log("Başlıyor... "+new Date().toLocaleTimeString());
   
-  Promise.allSettled(FEEDS.map(function(f){return fetchFeed(f)})).then(function(res){
+  // Feed'leri 3'erli gruplar halinde çek (rate-limit koruması)
+  function batchFetch(feeds,batchSize){
+    var results=[];
+    function nextBatch(idx){
+      if(idx>=feeds.length)return Promise.resolve(results);
+      var batch=feeds.slice(idx,idx+batchSize);
+      return Promise.allSettled(batch.map(function(f){return fetchFeed(f)})).then(function(batchRes){
+        results=results.concat(batchRes);
+        return new Promise(function(r){setTimeout(function(){r(nextBatch(idx+batchSize))},300)});
+      });
+    }
+    return nextBatch(0);
+  }
+  batchFetch(FEEDS,3).then(function(res){
     A=[];var ld=0,fail=0;
     res.forEach(function(r,i){
       if(r.status==="fulfilled"&&r.value.length>0){A=A.concat(r.value);ld++}
