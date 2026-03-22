@@ -436,7 +436,6 @@ canvas{max-width:100%!important}
     <button class="sidebar-item" onclick="sidebarNav(10,this)"><span class="sidebar-item-icon">📺</span><span data-t="subs">Abonelikler</span></button>
     <button class="sidebar-item" onclick="sidebarNav(5,this)"><span class="sidebar-item-icon">💱</span><span data-t="forex">Döviz Çevirici</span></button>
     <button class="sidebar-item" onclick="sidebarNav(11,this)"><span class="sidebar-item-icon">📰</span><span data-t="news">Haberler</span></button>
-    <button class="sidebar-item" onclick="sidebarNav(12,this)"><span class="sidebar-item-icon">🤖</span><span data-t="aiAssistant">AI Asistan</span></button>
     <button class="sidebar-item" onclick="sidebarNav(13,this)"><span class="sidebar-item-icon">🏆</span><span data-t="friends">Yarış</span></button>
     <button class="sidebar-item" onclick="sidebarNav(6,this)"><span class="sidebar-item-icon">📄</span><span data-t="report">Rapor</span></button>
     <button class="sidebar-item" onclick="sidebarNav(8,this)"><span class="sidebar-item-icon">📁</span><span data-t="projects">Projeler</span></button>
@@ -447,7 +446,7 @@ canvas{max-width:100%!important}
       <button class="fab fab-g" style="flex:1;justify-content:center;border-radius:12px;padding:10px" onclick="startAdd('income')"><span data-t="incomeShort">+ Gelir</span></button>
       <button class="fab fab-r" style="flex:1;justify-content:center;border-radius:12px;padding:10px" onclick="startAdd('expense')"><span data-t="expenseShort">+ Gider</span></button>
     </div>
-    <div class="sidebar-footer-text">CoinFlow v3.0</div>
+    <div class="sidebar-footer-text">CoinFlow v4.11</div>
   </div>
 </div>
 
@@ -850,7 +849,7 @@ tr:{
   news:"Haberler",noNews:"Haberler yükleniyor...",newsError:"Haberler yüklenemedi",readMore:"Devamını Oku",minutesAgo:"dk önce",hoursAgo:"sa önce",justNow:"Az önce",
   w_tl:"TL Hesabı",w_usd:"Dolar",w_eur:"Euro",w_gbp:"Sterlin",w_nakit:"Nakit",w_banka:"Banka",w_kumbara:"Kumbara",dayOf:"Her ayın",b_first:"İlk Adım",b_10tx:"10 İşlem",b_50tx:"50 İşlem",b_100tx:"100 İşlem",b_3day:"3 Gün",b_7day:"7 Gün",b_30day:"30 Gün",b_1k:"1K Birikim",b_10k:"10K Birikim",b_3mo:"3 Ay",b_goaler:"Hedefçi",b_debter:"Borç Takip",b_instaler:"Taksitçi",b_suber:"Abone",limitsSaved:"Limitler kaydedildi ✓",
   perPerson:"Kişi başı",
-  streak:"Seri",thisMonth:"Bu ay",start:"Başla!"
+  streak:"Seri",thisMonth:"Bu ay",start:"Başla!",transactions:"İşlemler",storageWarning:"Depolama alanı dolmak üzere!",storageFull:"Depolama alanı dolu! Eski fişleri silin."
 },
 en:{
   home:"Overview",analysis:"Analytics",goals:"Goals",wallets:"Wallets",debts:"Debts",installments:"Installments",subs:"Subs",forex:"Forex",report:"Report",projects:"Projects",settings:"Settings",
@@ -886,7 +885,7 @@ en:{
   news:"News",noNews:"Loading news...",newsError:"Could not load news",readMore:"Read More",minutesAgo:"min ago",hoursAgo:"hr ago",justNow:"Just now",
   w_tl:"TL Account",w_usd:"Dollar",w_eur:"Euro",w_gbp:"Pound",w_nakit:"Cash",w_banka:"Bank",w_kumbara:"Piggy Bank",dayOf:"Day",b_first:"First Step",b_10tx:"10 Txns",b_50tx:"50 Txns",b_100tx:"100 Txns",b_3day:"3 Days",b_7day:"7 Days",b_30day:"30 Days",b_1k:"1K Saved",b_10k:"10K Saved",b_3mo:"3 Months",b_goaler:"Goal Setter",b_debter:"Debt Tracker",b_instaler:"Installments",b_suber:"Subscriber",limitsSaved:"Limits saved ✓",
   perPerson:"Per person",
-  streak:"Streak",thisMonth:"This month",start:"Start!"
+  streak:"Streak",thisMonth:"This month",start:"Start!",transactions:"Transactions",storageWarning:"Storage is almost full!",storageFull:"Storage full! Delete old receipts."
 },
 ar:{
   home:"ملخص",analysis:"تحليل",goals:"أهداف",wallets:"محافظ",debts:"ديون",installments:"أقساط",subs:"اشتراك",forex:"عملات",report:"تقرير",projects:"مشاريع",settings:"إعدادات",
@@ -922,7 +921,7 @@ ar:{
   news:"أخبار",noNews:"جاري تحميل الأخبار...",newsError:"تعذر تحميل الأخبار",readMore:"اقرأ المزيد",minutesAgo:"د مضت",hoursAgo:"س مضت",justNow:"الآن",
   w_tl:"حساب ليرة",w_usd:"دولار",w_eur:"يورو",w_gbp:"جنيه",w_nakit:"نقد",w_banka:"بنك",w_kumbara:"حصالة",dayOf:"يوم",b_first:"الخطوة الأولى",b_10tx:"10 معاملات",b_50tx:"50 معاملة",b_100tx:"100 معاملة",b_3day:"3 أيام",b_7day:"7 أيام",b_30day:"30 يوم",b_1k:"1K ادخار",b_10k:"10K ادخار",b_3mo:"3 أشهر",b_goaler:"محدد أهداف",b_debter:"متتبع ديون",b_instaler:"أقساط",b_suber:"مشترك",limitsSaved:"تم حفظ الحدود ✓",
   perPerson:"لكل شخص",
-  streak:"سلسلة",thisMonth:"هذا الشهر",start:"!ابدأ"
+  streak:"سلسلة",thisMonth:"هذا الشهر",start:"!ابدأ",transactions:"المعاملات",storageWarning:"!المساحة على وشك الامتلاء",storageFull:"!المساحة ممتلئة. احذف الإيصالات القديمة"
 },
 de:{
   home:"Übersicht",analysis:"Analyse",goals:"Ziele",wallets:"Konten",debts:"Schulden",installments:"Raten",subs:"Abos",forex:"Devisen",report:"Bericht",projects:"Projekte",settings:"Einstellungen",
@@ -958,7 +957,7 @@ de:{
   news:"Nachrichten",noNews:"Nachrichten laden...",newsError:"Fehler beim Laden",readMore:"Weiterlesen",minutesAgo:"Min",hoursAgo:"Std",justNow:"Gerade",
   w_tl:"TL-Konto",w_usd:"Dollar",w_eur:"Euro",w_gbp:"Pfund",w_nakit:"Bargeld",w_banka:"Bank",w_kumbara:"Spardose",dayOf:"Tag",b_first:"Erster Schritt",b_10tx:"10 Trans.",b_50tx:"50 Trans.",b_100tx:"100 Trans.",b_3day:"3 Tage",b_7day:"7 Tage",b_30day:"30 Tage",b_1k:"1K Gespart",b_10k:"10K Gespart",b_3mo:"3 Monate",b_goaler:"Zielsetter",b_debter:"Schulden",b_instaler:"Raten",b_suber:"Abonnent",limitsSaved:"Limits gespeichert ✓",
   perPerson:"Pro Person",
-  streak:"Serie",thisMonth:"Diesen Monat",start:"Start!"
+  streak:"Serie",thisMonth:"Diesen Monat",start:"Start!",transactions:"Transaktionen",storageWarning:"Speicher fast voll!",storageFull:"Speicher voll! Alte Belege löschen."
 }};
 let curLang="tr";
 function t(key){return L[curLang]?.[key]||L.tr[key]||key}
@@ -1046,7 +1045,7 @@ function gMK(d=new Date()){return`${d.getFullYear()}-${String(d.getMonth()+1).pa
 function fmt(n){return new Intl.NumberFormat("tr-TR",{style:"currency",currency:"TRY",minimumFractionDigits:0,maximumFractionDigits:0}).format(n)}
 function gC(id){var c=[...CATS.income,...CATS.expense,...(D.customCats?.income||[]),...(D.customCats?.expense||[])].find(c=>c.id===id)||{l:id,i:"📌"};var tl=getCatLabel(id);return tl?{...c,l:tl}:c}
 
-function save(){localStorage.setItem("cf3",JSON.stringify(D))}
+function save(){try{var data=JSON.stringify(D);localStorage.setItem("cf3",data);if(data.length>4000000)showToast("⚠️ "+t("storageWarning"))}catch(e){if(e.name==='QuotaExceededError')showToast("⚠️ "+t("storageFull"))}}
 function load(){
   try{const d=JSON.parse(localStorage.getItem("cf3"));if(d){D={...D,...d}}}catch{}
   if(!D.theme)D.theme="dark";if(!D.subscriptions)D.subscriptions=[];if(!D.taksits)D.taksits=[];if(!D.challenges)D.challenges={};if(!D.userName)D.userName="";if(!D.customCats)D.customCats={income:[],expense:[]};
@@ -1380,7 +1379,8 @@ function setCur(c){curCur=c;document.getElementById("cTRY").classList.toggle("on
 function updConv(){var ci=document.getElementById("convI");if(curCur!=="TRY"){var v=parseFloat(document.getElementById("amtI").value);var rate=curCur==="USD"?usdRate:curCur==="EUR"?eurRate:gbpRate;var sym=curCur==="USD"?"$":curCur==="EUR"?"€":"£";if(v>0){ci.textContent="💱 "+sym+v+"×₺"+rate.toFixed(2)+"="+fmt(Math.round(v*rate));ci.style.display="block"}else ci.style.display="none"}else ci.style.display="none"}
 function chkForm(){const a=parseFloat(document.getElementById("amtI").value);document.getElementById("addBtn").disabled=!(selCat&&a>0);updConv()}
 document.addEventListener("input",e=>{if(e.target.id==="amtI")chkForm()});
-function submitEntry(){let a=parseFloat(document.getElementById("amtI").value);if(!selCat||!a||a<=0)return;
+var _submitting=false;
+function submitEntry(){if(_submitting)return;let a=parseFloat(document.getElementById("amtI").value);if(!selCat||!a||a<=0)return;if(a>99999999){showToast("⚠️ Maksimum tutar aşıldı");return}_submitting=true;setTimeout(function(){_submitting=false},1000);
   var rate=curCur==="USD"?usdRate:curCur==="EUR"?eurRate:curCur==="GBP"?gbpRate:1;
   var selectedDate=document.getElementById("dateI").value;
   var entryDate=selectedDate?new Date(selectedDate+"T12:00:00").toISOString():new Date().toISOString();
@@ -1452,7 +1452,7 @@ function dlPDF(){const{jsPDF}=window.jspdf;const doc=new jsPDF("p","mm","a4");co
   doc.setFontSize(12);doc.text(t("expense"),20,yy);yy+=7;doc.setFontSize(10);
   const ebc={};me.filter(e=>e.type==="expense").forEach(e=>{const c=gC(e.category);ebc[c.l]=(ebc[c.l]||0)+e.amount});
   Object.entries(ebc).sort((a,b)=>b[1]-a[1]).forEach(([n,v])=>{doc.text(n+": "+fp(v),25,yy);yy+=6;if(yy>270){doc.addPage();yy=20}});
-  yy+=5;doc.setFontSize(12);doc.text("Islemler",20,yy);yy+=7;doc.setFontSize(9);
+  yy+=5;doc.setFontSize(12);doc.text(t("transactions")||"Islemler",20,yy);yy+=7;doc.setFontSize(9);
   [...me].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,25).forEach(e=>{const c=gC(e.category);doc.text(`${e.type==="income"?"+":"-"}${fp(e.amount)} ${c.l}${e.note?" ("+e.note+")":""}`,25,yy);yy+=5;if(yy>270){doc.addPage();yy=20}});
   doc.save("coinflow-"+selMonth+".pdf");showToast("PDF indirildi ✓")}
 function fp(n){return n.toLocaleString("tr-TR")+" TL"}
@@ -1602,29 +1602,10 @@ function askAI(q){
   var subTotal=D.subscriptions.filter(function(s){return s.active}).reduce(function(s,x){return s+x.price},0);
   var ctx='Ay:'+selMonth+' Gelir:'+fmt(inc)+' Gider:'+fmt(exp)+' Net:'+fmt(inc-exp)+' Bütçe:'+(D.budget?fmt(D.budget):'yok')+' Top:'+topCats+' Hedef:'+D.goals.length+' Borç:'+D.debts.length+' Abo:'+fmt(subTotal)+'/ay İşlem:'+me.length;
   var lang=curLang==='tr'?'Türkçe':curLang==='en'?'English':curLang==='ar'?'العربية':'Deutsch';
-  // TRY Claude API first
-  fetch('https://api.anthropic.com/v1/messages',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-      model:'claude-sonnet-4-20250514',
-      max_tokens:600,
-      system:'Sen CoinFlow bütçe uygulamasının AI asistanısın. Kullanıcı verileri: '+ctx+'. Dil: '+lang+'. Kısa, samimi, emoji kullan. Max 150 kelime. Kişiselleştirilmiş tavsiye ver.',
-      messages:[{role:'user',content:q}]
-    })
-  }).then(function(r){if(!r.ok)throw new Error('API fail');return r.json()})
-  .then(function(d){
-    var reply=d.content&&d.content[0]?d.content[0].text:'';
-    if(!reply)throw new Error('Empty');
-    var tp=document.getElementById('aiTyping');if(tp)tp.remove();
-    chat.innerHTML+='<div class="ai-bubble ai-bot">'+reply.replace(/\n/g,'<br>')+'</div>';
-    chat.scrollTop=chat.scrollHeight;
-  }).catch(function(){
-    // FALLBACK to local smart analysis
-    var tp=document.getElementById('aiTyping');if(tp)tp.remove();
-    chat.innerHTML+='<div class="ai-bubble ai-bot">'+smartReply(q)+'</div>';
-    chat.scrollTop=chat.scrollHeight;
-  });
+  // Use local smart analysis directly (API requires backend proxy for CORS)
+  var tp=document.getElementById('aiTyping');if(tp)tp.remove();
+  chat.innerHTML+='<div class="ai-bubble ai-bot">'+smartReply(q)+'</div>';
+  chat.scrollTop=chat.scrollHeight;
 }
 function smartReply(q){
   var me=D.entries.filter(function(e){return e.month===selMonth});
@@ -1997,7 +1978,7 @@ async function fetchNews(){
   // Use cache if less than 5 min old
   if(newsCache&&Date.now()-newsCacheTime<300000){renderNews();return}
   loading.style.display='block';nl.innerHTML='';empty.style.display='none';
-  allNews=[];
+  allNews=[];var failedFeeds=0;
   var promises=NEWS_FEEDS.map(async function(feed){
     try{
       var r=await fetchWithTimeout(feed.url,10000);
@@ -2016,14 +1997,14 @@ async function fetchNews(){
           });
         });
       }
-    }catch(e){console.log('News feed error:',feed.id,e.name)}
+    }catch(e){console.log('News feed error:',feed.id,e.name);failedFeeds++}
   });
   await Promise.allSettled(promises);
   // Sort by date
   allNews.sort(function(a,b){return new Date(b.date)-new Date(a.date)});
   newsCache=allNews;newsCacheTime=Date.now();
   loading.style.display='none';
-  if(allNews.length===0){empty.style.display='block';empty.querySelector('.empty-t').textContent=t('newsError')}
+  if(allNews.length===0){empty.style.display='block';empty.querySelector('.empty-t').textContent=t('newsError');if(failedFeeds>0)showToast(t('newsError'))}
   else renderNews();
 }
 function renderNews(){
