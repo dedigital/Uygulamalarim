@@ -526,6 +526,24 @@ canvas{max-width:100%!important}
 <div id="pageHome" class="page active">
   <!-- Greeting -->
   <div id="greetingBar" style="padding:16px 16px 0;display:none"><div style="font-size:13px;color:var(--t2)"><span id="greetTimeIcon">☀️</span> <span id="greetTimeText">Günaydın</span>, <span id="greetName" style="color:var(--text);font-weight:700"></span></div></div>
+  <!-- Daily Summary Card -->
+  <div id="dailySummaryCard" class="bc" style="display:none;margin-top:8px;background:linear-gradient(135deg,var(--card),var(--abg));border:1px solid var(--ab)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div style="font-size:12px;font-weight:700;color:var(--accent)" data-t="dailySummaryTitle">Günün Özeti</div>
+      <div id="dailyMotivation" style="font-size:11px"></div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <div style="flex:1;padding:10px;border-radius:12px;background:var(--rbg);border:1px solid var(--rb);text-align:center">
+        <div style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px" data-t="todaySpent">Bugün harcanan</div>
+        <div id="dailySpent" style="font-size:16px;font-weight:800;color:var(--red)">₺0</div>
+      </div>
+      <div style="flex:1;padding:10px;border-radius:12px;background:var(--abg);border:1px solid var(--ab);text-align:center">
+        <div style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px" data-t="todayRemaining">Bugün kalan</div>
+        <div id="dailyRemaining" style="font-size:16px;font-weight:800;color:var(--accent)">₺0</div>
+      </div>
+    </div>
+    <div id="dailyProgressBar" class="prog-bar" style="margin-top:8px"><div id="dailyProgFill" class="prog-fill pg" style="width:0%"></div></div>
+  </div>
   <div class="hdr">
     <div class="logo"><svg width="32" height="32" viewBox="0 0 100 100"><defs><linearGradient id="logoG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#34d399"/><stop offset="100%" stop-color="#3b82f6"/></linearGradient></defs><rect fill="var(--card)" width="100" height="100" rx="22" stroke="var(--border)" stroke-width="2"/><circle cx="50" cy="46" r="26" fill="none" stroke="url(#logoG)" stroke-width="4.5"/><text x="50" y="55" text-anchor="middle" font-size="26" font-weight="800" font-family="Arial" fill="url(#logoG)">$</text><path d="M32 70 Q50 80 68 70" fill="none" stroke="url(#logoG)" stroke-width="2.5" stroke-linecap="round"/></svg><div class="logo-t" style="background:linear-gradient(135deg,var(--accent),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent">CoinFlow</div></div>
     <div class="hr">
@@ -849,7 +867,9 @@ tr:{
   news:"Haberler",noNews:"Haberler yükleniyor...",newsError:"Haberler yüklenemedi",readMore:"Devamını Oku",minutesAgo:"dk önce",hoursAgo:"sa önce",justNow:"Az önce",
   w_tl:"TL Hesabı",w_usd:"Dolar",w_eur:"Euro",w_gbp:"Sterlin",w_nakit:"Nakit",w_banka:"Banka",w_kumbara:"Kumbara",dayOf:"Her ayın",b_first:"İlk Adım",b_10tx:"10 İşlem",b_50tx:"50 İşlem",b_100tx:"100 İşlem",b_3day:"3 Gün",b_7day:"7 Gün",b_30day:"30 Gün",b_1k:"1K Birikim",b_10k:"10K Birikim",b_3mo:"3 Ay",b_goaler:"Hedefçi",b_debter:"Borç Takip",b_instaler:"Taksitçi",b_suber:"Abone",limitsSaved:"Limitler kaydedildi ✓",
   perPerson:"Kişi başı",
-  streak:"Seri",thisMonth:"Bu ay",start:"Başla!",transactions:"İşlemler",storageWarning:"Depolama alanı dolmak üzere!",storageFull:"Depolama alanı dolu! Eski fişleri silin."
+  streak:"Seri",thisMonth:"Bu ay",start:"Başla!",transactions:"İşlemler",storageWarning:"Depolama alanı dolmak üzere!",storageFull:"Depolama alanı dolu! Eski fişleri silin.",
+  budgetExceeded:"Bütçe aşıldı!",budgetWarnPct:"Bütçenin %{pct}'i harcandı!",catLimitExceeded:"Limit aşıldı!",catLimitWarn:"limite yaklaşıyor!",
+  dailySummaryTitle:"Günün Özeti",todaySpent:"Bugün harcanan",todayRemaining:"Bugün kalan bütçe",motivationGood:"Harika gidiyorsun! 💪",motivationWarn:"Dikkatli harca! ⚡",motivationBad:"Bütçeni aştın! 🚨",noSpendToday:"Bugün hiç harcama yok 🎉"
 },
 en:{
   home:"Overview",analysis:"Analytics",goals:"Goals",wallets:"Wallets",debts:"Debts",installments:"Installments",subs:"Subs",forex:"Forex",report:"Report",projects:"Projects",settings:"Settings",
@@ -885,7 +905,9 @@ en:{
   news:"News",noNews:"Loading news...",newsError:"Could not load news",readMore:"Read More",minutesAgo:"min ago",hoursAgo:"hr ago",justNow:"Just now",
   w_tl:"TL Account",w_usd:"Dollar",w_eur:"Euro",w_gbp:"Pound",w_nakit:"Cash",w_banka:"Bank",w_kumbara:"Piggy Bank",dayOf:"Day",b_first:"First Step",b_10tx:"10 Txns",b_50tx:"50 Txns",b_100tx:"100 Txns",b_3day:"3 Days",b_7day:"7 Days",b_30day:"30 Days",b_1k:"1K Saved",b_10k:"10K Saved",b_3mo:"3 Months",b_goaler:"Goal Setter",b_debter:"Debt Tracker",b_instaler:"Installments",b_suber:"Subscriber",limitsSaved:"Limits saved ✓",
   perPerson:"Per person",
-  streak:"Streak",thisMonth:"This month",start:"Start!",transactions:"Transactions",storageWarning:"Storage is almost full!",storageFull:"Storage full! Delete old receipts."
+  streak:"Streak",thisMonth:"This month",start:"Start!",transactions:"Transactions",storageWarning:"Storage is almost full!",storageFull:"Storage full! Delete old receipts.",
+  budgetExceeded:"Budget exceeded!",budgetWarnPct:"{pct}% of budget spent!",catLimitExceeded:"Limit exceeded!",catLimitWarn:"approaching limit!",
+  dailySummaryTitle:"Today's Summary",todaySpent:"Spent today",todayRemaining:"Remaining today",motivationGood:"You're doing great! 💪",motivationWarn:"Spend carefully! ⚡",motivationBad:"Over budget! 🚨",noSpendToday:"No spending today 🎉"
 },
 ar:{
   home:"ملخص",analysis:"تحليل",goals:"أهداف",wallets:"محافظ",debts:"ديون",installments:"أقساط",subs:"اشتراك",forex:"عملات",report:"تقرير",projects:"مشاريع",settings:"إعدادات",
@@ -921,7 +943,9 @@ ar:{
   news:"أخبار",noNews:"جاري تحميل الأخبار...",newsError:"تعذر تحميل الأخبار",readMore:"اقرأ المزيد",minutesAgo:"د مضت",hoursAgo:"س مضت",justNow:"الآن",
   w_tl:"حساب ليرة",w_usd:"دولار",w_eur:"يورو",w_gbp:"جنيه",w_nakit:"نقد",w_banka:"بنك",w_kumbara:"حصالة",dayOf:"يوم",b_first:"الخطوة الأولى",b_10tx:"10 معاملات",b_50tx:"50 معاملة",b_100tx:"100 معاملة",b_3day:"3 أيام",b_7day:"7 أيام",b_30day:"30 يوم",b_1k:"1K ادخار",b_10k:"10K ادخار",b_3mo:"3 أشهر",b_goaler:"محدد أهداف",b_debter:"متتبع ديون",b_instaler:"أقساط",b_suber:"مشترك",limitsSaved:"تم حفظ الحدود ✓",
   perPerson:"لكل شخص",
-  streak:"سلسلة",thisMonth:"هذا الشهر",start:"!ابدأ",transactions:"المعاملات",storageWarning:"!المساحة على وشك الامتلاء",storageFull:"!المساحة ممتلئة. احذف الإيصالات القديمة"
+  streak:"سلسلة",thisMonth:"هذا الشهر",start:"!ابدأ",transactions:"المعاملات",storageWarning:"!المساحة على وشك الامتلاء",storageFull:"!المساحة ممتلئة. احذف الإيصالات القديمة",
+  budgetExceeded:"!تم تجاوز الميزانية",budgetWarnPct:"تم إنفاق {pct}% من الميزانية!",catLimitExceeded:"!تم تجاوز الحد",catLimitWarn:"يقترب من الحد!",
+  dailySummaryTitle:"ملخص اليوم",todaySpent:"أنفق اليوم",todayRemaining:"المتبقي اليوم",motivationGood:"أنت تبلي بلاءً حسناً! 💪",motivationWarn:"أنفق بحذر! ⚡",motivationBad:"تجاوزت الميزانية! 🚨",noSpendToday:"لا إنفاق اليوم 🎉"
 },
 de:{
   home:"Übersicht",analysis:"Analyse",goals:"Ziele",wallets:"Konten",debts:"Schulden",installments:"Raten",subs:"Abos",forex:"Devisen",report:"Bericht",projects:"Projekte",settings:"Einstellungen",
@@ -957,7 +981,9 @@ de:{
   news:"Nachrichten",noNews:"Nachrichten laden...",newsError:"Fehler beim Laden",readMore:"Weiterlesen",minutesAgo:"Min",hoursAgo:"Std",justNow:"Gerade",
   w_tl:"TL-Konto",w_usd:"Dollar",w_eur:"Euro",w_gbp:"Pfund",w_nakit:"Bargeld",w_banka:"Bank",w_kumbara:"Spardose",dayOf:"Tag",b_first:"Erster Schritt",b_10tx:"10 Trans.",b_50tx:"50 Trans.",b_100tx:"100 Trans.",b_3day:"3 Tage",b_7day:"7 Tage",b_30day:"30 Tage",b_1k:"1K Gespart",b_10k:"10K Gespart",b_3mo:"3 Monate",b_goaler:"Zielsetter",b_debter:"Schulden",b_instaler:"Raten",b_suber:"Abonnent",limitsSaved:"Limits gespeichert ✓",
   perPerson:"Pro Person",
-  streak:"Serie",thisMonth:"Diesen Monat",start:"Start!",transactions:"Transaktionen",storageWarning:"Speicher fast voll!",storageFull:"Speicher voll! Alte Belege löschen."
+  streak:"Serie",thisMonth:"Diesen Monat",start:"Start!",transactions:"Transaktionen",storageWarning:"Speicher fast voll!",storageFull:"Speicher voll! Alte Belege löschen.",
+  budgetExceeded:"Budget überschritten!",budgetWarnPct:"{pct}% des Budgets ausgegeben!",catLimitExceeded:"Limit überschritten!",catLimitWarn:"nähert sich dem Limit!",
+  dailySummaryTitle:"Tagesübersicht",todaySpent:"Heute ausgegeben",todayRemaining:"Heute verbleibend",motivationGood:"Du machst das super! 💪",motivationWarn:"Gib vorsichtig aus! ⚡",motivationBad:"Budget überschritten! 🚨",noSpendToday:"Heute keine Ausgaben 🎉"
 }};
 let curLang="tr";
 function t(key){return L[curLang]?.[key]||L.tr[key]||key}
@@ -1067,13 +1093,19 @@ function resetPin(){if(confirm("PIN silinecek, emin misin?")){D.pin=null;save();
 function setupPin(){const v=document.getElementById("pinSetInput").value;if(v.length===4){D.pin=v;save();document.getElementById("pinSetupModal").classList.add("hidden");document.getElementById("pinSetInput").value="";showToast("PIN ayarlandı 🔒")}else{showToast("4 haneli PIN gir")}}
 function removePin(){D.pin=null;save();document.getElementById("pinSetupModal").classList.add("hidden");showToast("PIN kaldırıldı")}
 
-function applyTheme(){
+function applyTheme(animate){
   let dark=true;
   if(D.theme==="light")dark=false;
   else if(D.theme==="system")dark=window.matchMedia("(prefers-color-scheme:dark)").matches;
-  isDark=dark;document.documentElement.classList.toggle("light",!isDark);
-  // Reapply color theme accent without breaking light/dark bg
-  if(D.colorTheme){var th=THEMES.find(function(x){return x.id===D.colorTheme});if(th){document.documentElement.style.setProperty('--accent',th.accent);document.documentElement.style.setProperty('--glow',th.accent+'33');document.documentElement.style.setProperty('--abg',th.accent+'15');document.documentElement.style.setProperty('--ab',th.accent+'25');if(isDark)document.documentElement.style.setProperty('--bg',th.bg);else document.documentElement.style.removeProperty('--bg')}}
+  if(animate){
+    var overlay=document.getElementById('themeTransition');
+    if(!overlay){overlay=document.createElement('div');overlay.id='themeTransition';overlay.style.cssText='position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:0;transition:opacity .35s ease';document.body.appendChild(overlay)}
+    overlay.style.background=dark?'#050509':'#f7f7fb';overlay.style.opacity='1';
+    setTimeout(function(){isDark=dark;document.documentElement.classList.toggle("light",!isDark);if(D.colorTheme){var th=THEMES.find(function(x){return x.id===D.colorTheme});if(th){document.documentElement.style.setProperty('--accent',th.accent);document.documentElement.style.setProperty('--glow',th.accent+'33');document.documentElement.style.setProperty('--abg',th.accent+'15');document.documentElement.style.setProperty('--ab',th.accent+'25');if(isDark)document.documentElement.style.setProperty('--bg',th.bg);else document.documentElement.style.removeProperty('--bg')}}setTimeout(function(){overlay.style.opacity='0'},50)},300);
+  } else {
+    isDark=dark;document.documentElement.classList.toggle("light",!isDark);
+    if(D.colorTheme){var th=THEMES.find(function(x){return x.id===D.colorTheme});if(th){document.documentElement.style.setProperty('--accent',th.accent);document.documentElement.style.setProperty('--glow',th.accent+'33');document.documentElement.style.setProperty('--abg',th.accent+'15');document.documentElement.style.setProperty('--ab',th.accent+'25');if(isDark)document.documentElement.style.setProperty('--bg',th.bg);else document.documentElement.style.removeProperty('--bg')}}
+  }
 }
 window.matchMedia("(prefers-color-scheme:dark)").addEventListener("change",()=>{if(D.theme==="system")applyTheme()})
 function destroyCharts(){Object.keys(charts).forEach(k=>{if(charts[k]){charts[k].destroy();charts[k]=null}})}
@@ -1322,7 +1354,7 @@ function render(){
   else{sa.style.display="block";sa.textContent=t("seeAll");rl.innerHTML=[...me].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,5).map(e=>eHTML(e,true)).join("")}
   // New features
   renderStreak();renderMood();renderBadges();checkBudgetAlerts();renderQuickAdd();
-  renderHealthScore();renderHeatmap();renderInsights();renderChallenges();renderGreeting();translateUI();
+  renderHealthScore();renderHeatmap();renderInsights();renderChallenges();renderGreeting();renderDailySummary();translateUI();
 }
 
 function eHTML(e,click=false){const c=gC(e.category);const oc=click?`onclick="openAction('${e.id}')"`:"";
@@ -1486,7 +1518,22 @@ function renderBadges(){var total=D.entries.length;var totalSaved=D.goals.reduce
   document.getElementById("badgesDisplay").innerHTML=B.map(b=>'<div style="flex:0 0 auto;text-align:center;padding:8px 4px;border-radius:12px;background:var(--card);border:1px solid var(--border);min-width:56px;backdrop-filter:blur(8px);'+(b.ok?"":"opacity:0.25;filter:grayscale(1)")+'"><div style="font-size:22px">'+b.i+'</div><div style="font-size:7px;font-weight:600;color:'+(b.ok?"var(--accent)":"var(--t3)")+';margin-top:2px">'+b.n+'</div></div>').join("")}
 function repeatEntry(){var e=D.entries.find(x=>x.id===actionId);if(!e)return;D.entries.unshift({id:Date.now().toString(),type:e.type,category:e.category,amount:e.amount,note:e.note,month:selMonth,date:new Date().toISOString(),wallet:e.wallet||"nakit"});save();document.getElementById("entryActionModal").classList.add("hidden");render();showToast("🔄 "+t("added"))}
 function shareDebtQR(id){var d=D.debts.find(x=>x.id===id);if(!d)return;var info=d.dir===0?"Ben "+d.name+"'e "+fmt(d.amount)+" borcluyum":d.name+" bana "+fmt(d.amount)+" borclu";var qrUrl="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data="+encodeURIComponent(info);document.getElementById("qrContainer").innerHTML='<img src="'+qrUrl+'" width="180" height="180" style="border-radius:8px" onerror="this.parentElement.innerHTML=\'<div style=padding:20px;color:var(--t3)>İnternet gerekli</div>\'">';document.getElementById("qrInfo").textContent=info;document.getElementById("qrModal").classList.remove("hidden")}
-function checkBudgetAlerts(){if(!D.budget)return;var me=D.entries.filter(e=>e.month===selMonth&&e.type==="expense");var exp=me.reduce((s,e)=>s+e.amount,0);var pct=exp/D.budget*100;var k="ba_"+selMonth+"_"+Math.floor(pct/25)*25;if(pct>=100&&!sessionStorage.getItem(k)){showToast("⚠️ Bütçe aşıldı! "+fmt(exp-D.budget)+" fazla!");sessionStorage.setItem(k,"1")}else if(pct>=75&&pct<100&&!sessionStorage.getItem(k)){showToast("⚡ Bütçenin %"+Math.round(pct)+"'i harcandı!");sessionStorage.setItem(k,"1")}if("Notification"in window&&Notification.permission==="default"){try{Notification.requestPermission()}catch{}}}
+function checkBudgetAlerts(){
+  // General budget alert
+  if(D.budget){var me=D.entries.filter(e=>e.month===selMonth&&e.type==="expense");var exp=me.reduce((s,e)=>s+e.amount,0);var pct=exp/D.budget*100;var k="ba_"+selMonth+"_"+Math.floor(pct/25)*25;if(pct>=100&&!sessionStorage.getItem(k)){showToast("⚠️ "+t("budgetExceeded")+" "+fmt(exp-D.budget));sessionStorage.setItem(k,"1")}else if(pct>=75&&pct<100&&!sessionStorage.getItem(k)){showToast("⚡ "+t("budgetWarnPct").replace("{pct}",Math.round(pct)));sessionStorage.setItem(k,"1")}}
+  // Category budget alerts
+  if(D.catBudgets&&Object.keys(D.catBudgets).length>0){
+    var me2=D.entries.filter(e=>e.month===selMonth&&e.type==="expense");
+    var catSpend={};me2.forEach(e=>{catSpend[e.category]=(catSpend[e.category]||0)+e.amount});
+    Object.entries(D.catBudgets).forEach(function(pair){
+      var catId=pair[0],limit=pair[1];var spent=catSpend[catId]||0;var p=spent/limit*100;
+      var ck="cb_"+selMonth+"_"+catId+"_"+Math.floor(p/20)*20;
+      if(p>=100&&!sessionStorage.getItem(ck)){var c=gC(catId);showToast("🚨 "+c.i+" "+c.l+": "+t("catLimitExceeded"));sessionStorage.setItem(ck,"1")}
+      else if(p>=80&&p<100&&!sessionStorage.getItem(ck)){var c=gC(catId);showToast("⚠️ "+c.i+" "+c.l+": %"+Math.round(p)+" "+t("catLimitWarn"));sessionStorage.setItem(ck,"1")}
+    });
+  }
+  if("Notification"in window&&Notification.permission==="default"){try{Notification.requestPermission()}catch{}}
+}
 function renderQuickAdd(){var sec=document.getElementById("quickAddSec");if(D.entries.length<5){sec.style.display="none";return}
   var freq={};D.entries.forEach(e=>{var k=e.type+"_"+e.category;freq[k]=(freq[k]||0)+1});var top=Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,4);if(top.length<2){sec.style.display="none";return}
   sec.style.display="block";document.getElementById("quickAddBtns").innerHTML=top.map(pair=>{var parts=pair[0].split("_");var type=parts[0];var catId=parts[1];var c=gC(catId);var amounts=D.entries.filter(e=>e.type===type&&e.category===catId).map(e=>e.amount);var avg=Math.round(amounts.reduce((s,a)=>s+a,0)/amounts.length);
@@ -1533,7 +1580,7 @@ function renderSettings(){document.getElementById("pinStatusText").textContent=D
   var sizes=[{l:"S",v:85},{l:"M",v:100},{l:"L",v:115},{l:"XL",v:130}];
   document.getElementById("sizeButtons").innerHTML=sizes.map(s=>{var active=sv===s.v;return'<button class="lnk" style="flex:1;padding:10px;text-align:center;font-size:13px;font-weight:700;'+(active?'background:var(--abg);border-color:var(--ab);color:var(--accent)':'')+'" onclick="setScale('+s.v+')">'+s.l+'</button>'}).join("");
   var themes=[{l:t("dark"),v:"dark"},{l:t("light"),v:"light"},{l:t("system"),v:"system"}];
-  document.getElementById("themeButtons").innerHTML=themes.map(th=>{var active=D.theme===th.v;return'<button class="lnk" style="flex:1;padding:10px;text-align:center;font-size:13px;'+(active?'background:var(--abg);border-color:var(--ab);color:var(--accent)':'')+'" onclick="D.theme=\''+th.v+'\';applyTheme();save();renderSettings()">'+th.l+'</button>'}).join("");
+  document.getElementById("themeButtons").innerHTML=themes.map(th=>{var active=D.theme===th.v;return'<button class="lnk" style="flex:1;padding:10px;text-align:center;font-size:13px;'+(active?'background:var(--abg);border-color:var(--ab);color:var(--accent)':'')+'" onclick="D.theme=\''+th.v+'\';applyTheme(true);save();renderSettings()">'+th.l+'</button>'}).join("");
   var langs=[{l:"🇹🇷 Türkçe",v:"tr"},{l:"🇬🇧 English",v:"en"},{l:"🇸🇦 العربية",v:"ar"},{l:"🇩🇪 Deutsch",v:"de"}];
   document.getElementById("langButtons").innerHTML=langs.map(lg=>{var active=curLang===lg.v;return'<button class="lnk" style="flex:1;padding:10px;text-align:center;font-size:12px;min-width:70px;'+(active?'background:var(--abg);border-color:var(--ab);color:var(--accent)':'')+'" onclick="setLang(\''+lg.v+'\')">'+lg.l+'</button>'}).join("")}
 
@@ -1549,6 +1596,39 @@ if("serviceWorker"in navigator){const sw=`const C="bv5";self.addEventListener("i
 function checkWelcome(){if(!D.userName){document.getElementById("welcomeModal").classList.remove("hidden")}}
 function saveUserName(){var name=document.getElementById("welcomeNameInput").value.trim();if(!name){showToast("İsmini yaz!");return}D.userName=name;save();document.getElementById("welcomeModal").classList.add("hidden");renderGreeting();showToast("Hoşgeldin "+name+"! 🎉")}
 function renderGreeting(){var bar=document.getElementById("greetingBar");if(!D.userName){bar.style.display="none";return}bar.style.display="block";document.getElementById("greetName").textContent=D.userName;var h=new Date().getHours();var icon,text;if(h>=5&&h<12){icon="☀️";text=t("goodMorning")}else if(h>=12&&h<18){icon="🌤️";text=t("goodAfternoon")}else if(h>=18&&h<22){icon="🌅";text=t("goodEvening")}else{icon="🌙";text=t("goodNight")}document.getElementById("greetTimeIcon").textContent=icon;document.getElementById("greetTimeText").textContent=text}
+
+// ===== DAILY SUMMARY =====
+function renderDailySummary(){
+  var card=document.getElementById('dailySummaryCard');if(!card)return;
+  var today=new Date().toISOString().slice(0,10);
+  // Only show for current month
+  if(selMonth!==gMK()){card.style.display='none';return}
+  card.style.display='block';
+  var todayEntries=D.entries.filter(function(e){return e.date&&e.date.slice(0,10)===today&&e.type==='expense'});
+  var todaySpent=todayEntries.reduce(function(s,e){return s+e.amount},0);
+  document.getElementById('dailySpent').textContent=fmt(todaySpent);
+  // Calculate daily budget
+  var dim=new Date(new Date().getFullYear(),new Date().getMonth()+1,0).getDate();
+  var dailyBudget=D.budget?Math.round(D.budget/dim):0;
+  var remaining=dailyBudget-todaySpent;
+  if(dailyBudget>0){
+    document.getElementById('dailyRemaining').textContent=fmt(remaining);
+    document.getElementById('dailyRemaining').style.color=remaining>=0?'var(--accent)':'var(--red)';
+    var pct=Math.min((todaySpent/dailyBudget)*100,100);
+    document.getElementById('dailyProgFill').style.width=pct+'%';
+    document.getElementById('dailyProgFill').className='prog-fill '+(pct>=100?'pr':'pg');
+    var motiv=document.getElementById('dailyMotivation');
+    if(todaySpent===0)motiv.textContent=t('noSpendToday');
+    else if(pct<60)motiv.textContent=t('motivationGood');
+    else if(pct<100)motiv.textContent=t('motivationWarn');
+    else motiv.textContent=t('motivationBad');
+  } else {
+    document.getElementById('dailyRemaining').textContent='-';
+    document.getElementById('dailyProgressBar').style.display='none';
+    var motiv=document.getElementById('dailyMotivation');
+    motiv.textContent=todaySpent===0?t('noSpendToday'):'';
+  }
+}
 
 // ===== CUSTOM CATEGORIES =====
 var EMOJIS=["🎵","🎬","🎨","🏋️","🐾","✂️","🎁","🏖️","🍕","☕","🚕","📷","🎤","🧹","💇","🔧","🏠","💻","📞","🎲","🧳","🪴","🎭","⛽","🧴","💊","📺","🛍️","🎸","🧑‍💻"];
@@ -1880,7 +1960,11 @@ var THEMES=[
   {id:'forest',name:'Forest',bg:'#040d04',accent:'#22c55e',gradient:'linear-gradient(135deg,#22c55e,#16a34a)'},
   {id:'rose',name:'Rose',bg:'#110810',accent:'#f43f5e',gradient:'linear-gradient(135deg,#f43f5e,#ec4899)'},
   {id:'gold',name:'Gold',bg:'#0d0a04',accent:'#eab308',gradient:'linear-gradient(135deg,#eab308,#f97316)'},
-  {id:'ice',name:'Ice',bg:'#060a10',accent:'#38bdf8',gradient:'linear-gradient(135deg,#38bdf8,#818cf8)'}
+  {id:'ice',name:'Ice',bg:'#060a10',accent:'#38bdf8',gradient:'linear-gradient(135deg,#38bdf8,#818cf8)'},
+  {id:'cherry',name:'Cherry',bg:'#100408',accent:'#e11d48',gradient:'linear-gradient(135deg,#e11d48,#be123c)'},
+  {id:'lavender',name:'Lavender',bg:'#0c0812',accent:'#c084fc',gradient:'linear-gradient(135deg,#c084fc,#a78bfa)'},
+  {id:'mint',name:'Mint',bg:'#041210',accent:'#2dd4bf',gradient:'linear-gradient(135deg,#2dd4bf,#34d399)'},
+  {id:'amber',name:'Amber',bg:'#0e0a02',accent:'#f59e0b',gradient:'linear-gradient(135deg,#f59e0b,#d97706)'}
 ];
 function renderThemeStore(){
   var st=document.getElementById('themeStore');if(!st)return;
