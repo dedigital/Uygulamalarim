@@ -416,7 +416,8 @@ canvas{max-width:100%!important}
 <div class="splash-particles" id="splashParticles"></div>
 <svg width="80" height="80" viewBox="0 0 100 100"><defs><linearGradient id="splG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#34d399"/><stop offset="100%" stop-color="#3b82f6"/></linearGradient></defs><rect fill="#080812" width="100" height="100" rx="22"/><circle cx="50" cy="46" r="26" fill="none" stroke="url(#splG)" stroke-width="4.5"/><text x="50" y="55" text-anchor="middle" font-size="26" font-weight="800" font-family="Arial" fill="url(#splG)">$</text><path d="M32 70 Q50 80 68 70" fill="none" stroke="url(#splG)" stroke-width="2.5" stroke-linecap="round"/></svg>
 <div style="font-size:26px;font-weight:800;background:linear-gradient(135deg,#34d399,#3b82f6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.03em">CoinFlow</div>
-<div style="font-size:11px;color:#4a4b5e;font-weight:500;letter-spacing:0.05em">AKILLI BÜTÇE TAKİP</div>
+<div id="splashSubtitle" style="font-size:11px;color:#4a4b5e;font-weight:500;letter-spacing:0.05em">SMART BUDGET TRACKER</div>
+<script>(function(){var bl=(navigator.language||"en").slice(0,2).toLowerCase(),m={tr:"AKILLI BÜTÇE TAKİP",en:"SMART BUDGET TRACKER",ar:"تتبع الميزانية الذكي",de:"SMARTER BUDGETPLANER"},el=document.getElementById("splashSubtitle");if(el)el.textContent=m[bl]||m.en})()</script>
 </div>
 
 <!-- Desktop Sidebar -->
@@ -519,7 +520,7 @@ canvas{max-width:100%!important}
     <div style="font-size:11px;color:var(--t3);margin-top:4px" id="clDate"></div>
   </div>
   <div id="clContent" style="max-height:55vh;overflow-y:auto;margin-bottom:14px"></div>
-  <button class="btn-p" style="width:100%;padding:14px;border-radius:14px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer" onclick="document.getElementById('changelogModal').classList.add('hidden');D.lastVersion=APP_VERSION;save()">Tamam 🚀</button>
+  <button id="clOkBtn" class="btn-p" style="width:100%;padding:14px;border-radius:14px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer" onclick="document.getElementById('changelogModal').classList.add('hidden');D.lastVersion=APP_VERSION;save()">OK 🚀</button>
 </div></div>
 
 <!-- ===== HOME ===== -->
@@ -757,42 +758,49 @@ canvas{max-width:100%!important}
 <script>
 // ===== APP VERSION & CHANGELOG =====
 const APP_VERSION='4.11';
-const CHANGELOG=[
-  {version:'4.11',date:'21 Mart 2026',sections:[
-    {type:'fixed',icon:'🔧',items:['📄 Rapor sayfasındaki t() çeviri hatası düzeltildi','🌐 GELİR/GİDER etiketleri artık tüm dillerde çalışıyor']}
-  ]},
-  {version:'4.1',date:'19 Mart 2026',sections:[
-    {type:'added',icon:'✨',items:['📤 Arkadaşına Öner butonu (WhatsApp/paylaşım)','📊 Haftalık özet popup (her Pazar otomatik)','🏦 Banka renkleri cüzdanlarda (Garanti, Ziraat, İş, Yapı Kredi vs.)','🔔 Abonelik & taksit hatırlatıcı (3 gün kala uyarı)']}
-  ]},
-  {version:'4.01',date:'19 Mart 2026',sections:[
-    {type:'fixed',icon:'🔧',items:['📰 Haber resimleri düzeltildi (ekranı kaplamıyordu)','🎨 Tema mağazası açık modda artık düzgün çalışıyor','🌐 Dil karışıklığı giderildi (Rechner→Hesaplayıcı)']}
-  ]},
-  {version:'4.0',date:'19 Mart 2026',sections:[
-    {type:'added',icon:'✨',items:['📊 Canlı Borsa/Kripto ticker (BTC, ETH, XRP, Altın)','🧮 Kredi & Taksit Hesaplayıcı','🎨 Tema Mağazası (8 renk teması)','📸 Instagram Story kartı oluşturucu','📰 Ekonomi Haberleri (Bloomberg HT, Yahoo, CoinDesk, Investing)','🤖 AI Finans Asistanı (hibrit: Claude API + lokal analiz)','🔄 Güncelleme geçmişi popup']},
-    {type:'fixed',icon:'🔧',items:['Dil sistemi tamamen yeniden yazıldı (data-t sistemi)','Taksit/Abonelik/Proje sekmeleri tüm dillerde çalışıyor','Tab highlight ve çeviri düzeltildi','Safari API hatası düzeltildi (AbortSignal.timeout)','Çift emoji sorunu giderildi']},
-    {type:'removed',icon:'🗑️',items:['Arkadaş yarışması kaldırıldı (backend gerekli)']}
-  ]},
-  {version:'3.5',date:'19 Mart 2026',sections:[
-    {type:'added',icon:'✨',items:['💳 Taksit takibi (progress dots)','📺 Abonelik takibi (preset dahil)','📁 Proje bazlı bütçe takibi','🎨 Özel kategori ekleme (emoji seçici)','📅 Tarih seçici (geçmiş işlem girme)','👤 Kişiselleştirilmiş karşılama','🔒 PIN kilit ekranı','📄 PDF rapor indirme','🎁 Yılın Özeti (Wrapped)','⚡ Hızlı ekle kısayolları','🏆 Rozet/Başarım sistemi','⚔️ Görevler (streak, tasarruf, bütçe)']},
-    {type:'fixed',icon:'🔧',items:['Bottom navigation bar eklendi','Desktop sidebar tasarımı','Responsive tasarım (tablet + desktop)']}
-  ]},
-  {version:'3.0',date:'18 Mart 2026',sections:[
-    {type:'added',icon:'✨',items:['🌍 4 dil desteği (TR, EN, AR, DE)','💱 Canlı döviz çevirici (4 API)','🎯 Tasarruf hedefleri (confetti efekti)','💸 Borç takibi (QR + WhatsApp)','👥 Ortak harcama bölüştürücü','📊 Finansal sağlık skoru (0-100)','📅 Harcama heatmap takvimi','🧠 Akıllı ipuçları']},
-    {type:'fixed',icon:'🔧',items:['Çoklu para birimi (TRY/USD/EUR/GBP)','Light/Dark/System tema','Glassmorphism tasarım']}
-  ]},
-  {version:'2.0',date:'17 Mart 2026',sections:[
-    {type:'added',icon:'✨',items:['Gelir/gider takibi başladı','11 gider + 5 gelir kategorisi','Aylık bütçe limiti','Kategori dağılım çubukları','Cüzdan sistemi (7 cüzdan)','Tekrarlayan işlemler']}
-  ]},
-  {version:'1.0',date:'16 Mart 2026',sections:[
-    {type:'added',icon:'✨',items:['CoinFlow ilk sürüm 🎉','Temel bütçe takibi','localStorage veri saklama','PWA desteği (ana ekrana ekle)']}
-  ]}
-];
+const CHANGELOG_I18N={
+tr:[
+  {version:'4.11',date:'21 Mart 2026',sections:[{type:'fixed',icon:'🔧',items:['📄 Rapor sayfasındaki çeviri hatası düzeltildi','🌐 GELİR/GİDER etiketleri tüm dillerde çalışıyor']}]},
+  {version:'4.1',date:'19 Mart 2026',sections:[{type:'added',icon:'✨',items:['📤 Arkadaşına Öner butonu (WhatsApp/paylaşım)','📊 Haftalık özet popup (her Pazar otomatik)','🏦 Banka renkleri cüzdanlarda','🔔 Abonelik & taksit hatırlatıcı (3 gün kala uyarı)']}]},
+  {version:'4.0',date:'19 Mart 2026',sections:[{type:'added',icon:'✨',items:['📊 Canlı Borsa/Kripto ticker','🧮 Kredi & Taksit Hesaplayıcı','🎨 Tema Mağazası (8 tema)','📸 Instagram Story kartı','📰 Ekonomi Haberleri','🤖 AI Finans Asistanı','🔄 Güncelleme geçmişi']},{type:'fixed',icon:'🔧',items:['Dil sistemi yeniden yazıldı','Tab ve çeviri düzeltmeleri','Safari API hatası düzeltildi']}]},
+  {version:'3.0',date:'18 Mart 2026',sections:[{type:'added',icon:'✨',items:['🌍 4 dil desteği (TR, EN, AR, DE)','💱 Canlı döviz çevirici','🎯 Tasarruf hedefleri','💸 Borç takibi','📊 Finansal sağlık skoru','📅 Harcama takvimi']}]},
+  {version:'2.0',date:'17 Mart 2026',sections:[{type:'added',icon:'✨',items:['Gelir/gider takibi','11 gider + 5 gelir kategorisi','Aylık bütçe limiti','Cüzdan sistemi']}]},
+  {version:'1.0',date:'16 Mart 2026',sections:[{type:'added',icon:'✨',items:['CoinFlow ilk sürüm 🎉','Temel bütçe takibi','PWA desteği']}]}
+],
+en:[
+  {version:'4.11',date:'Mar 21, 2026',sections:[{type:'fixed',icon:'🔧',items:['📄 Fixed translation error on report page','🌐 INCOME/EXPENSE labels now work in all languages']}]},
+  {version:'4.1',date:'Mar 19, 2026',sections:[{type:'added',icon:'✨',items:['📤 Share with friends button (WhatsApp)','📊 Weekly summary popup (auto every Sunday)','🏦 Bank colors for wallets','🔔 Subscription & installment reminders (3 days before)']}]},
+  {version:'4.0',date:'Mar 19, 2026',sections:[{type:'added',icon:'✨',items:['📊 Live Stock/Crypto ticker','🧮 Loan & Installment Calculator','🎨 Theme Store (8 themes)','📸 Instagram Story card','📰 Economy News','🤖 AI Finance Assistant','🔄 Changelog popup']},{type:'fixed',icon:'🔧',items:['Language system rewritten','Tab & translation fixes','Safari API bug fixed']}]},
+  {version:'3.0',date:'Mar 18, 2026',sections:[{type:'added',icon:'✨',items:['🌍 4 language support (TR, EN, AR, DE)','💱 Live currency converter','🎯 Savings goals','💸 Debt tracker','📊 Financial health score','📅 Spending calendar']}]},
+  {version:'2.0',date:'Mar 17, 2026',sections:[{type:'added',icon:'✨',items:['Income/expense tracking','11 expense + 5 income categories','Monthly budget limit','Wallet system']}]},
+  {version:'1.0',date:'Mar 16, 2026',sections:[{type:'added',icon:'✨',items:['CoinFlow first release 🎉','Basic budget tracking','PWA support']}]}
+],
+ar:[
+  {version:'4.11',date:'21 مارس 2026',sections:[{type:'fixed',icon:'🔧',items:['📄 إصلاح خطأ الترجمة في صفحة التقرير','🌐 تسميات الدخل/المصروف تعمل بجميع اللغات']}]},
+  {version:'4.1',date:'19 مارس 2026',sections:[{type:'added',icon:'✨',items:['📤 زر مشاركة مع الأصدقاء','📊 ملخص أسبوعي تلقائي','🏦 ألوان البنوك للمحافظ','🔔 تذكير الاشتراكات والأقساط']}]},
+  {version:'4.0',date:'19 مارس 2026',sections:[{type:'added',icon:'✨',items:['📊 مؤشر البورصة والعملات المشفرة','🧮 حاسبة القروض والأقساط','🎨 متجر السمات (8 سمات)','📰 أخبار الاقتصاد','🤖 مساعد مالي ذكي']},{type:'fixed',icon:'🔧',items:['إعادة كتابة نظام اللغة','إصلاح خطأ Safari API']}]},
+  {version:'3.0',date:'18 مارس 2026',sections:[{type:'added',icon:'✨',items:['🌍 دعم 4 لغات','💱 محول عملات مباشر','🎯 أهداف التوفير','💸 تتبع الديون']}]},
+  {version:'1.0',date:'16 مارس 2026',sections:[{type:'added',icon:'✨',items:['الإصدار الأول 🎉','تتبع الميزانية الأساسي']}]}
+],
+de:[
+  {version:'4.11',date:'21. Mär 2026',sections:[{type:'fixed',icon:'🔧',items:['📄 Übersetzungsfehler auf Berichtsseite behoben','🌐 EINNAHMEN/AUSGABEN Labels funktionieren in allen Sprachen']}]},
+  {version:'4.1',date:'19. Mär 2026',sections:[{type:'added',icon:'✨',items:['📤 Mit Freunden teilen (WhatsApp)','📊 Wöchentliche Zusammenfassung','🏦 Bankfarben für Wallets','🔔 Abo- & Ratenerinnerungen']}]},
+  {version:'4.0',date:'19. Mär 2026',sections:[{type:'added',icon:'✨',items:['📊 Live Börsen/Krypto-Ticker','🧮 Kredit- & Ratenrechner','🎨 Theme Store (8 Themes)','📰 Wirtschaftsnachrichten','🤖 KI-Finanzassistent']},{type:'fixed',icon:'🔧',items:['Sprachsystem neu geschrieben','Safari API-Fehler behoben']}]},
+  {version:'3.0',date:'18. Mär 2026',sections:[{type:'added',icon:'✨',items:['🌍 4 Sprachen (TR, EN, AR, DE)','💱 Live-Währungsrechner','🎯 Sparziele','💸 Schuldentracker']}]},
+  {version:'1.0',date:'16. Mär 2026',sections:[{type:'added',icon:'✨',items:['Erste Version 🎉','Grundlegendes Budget-Tracking','PWA-Unterstützung']}]}
+]
+};
+function getCL(){return CHANGELOG_I18N[curLang]||CHANGELOG_I18N.en}
+const CHANGELOG=CHANGELOG_I18N.tr;
 function showChangelog(){
-  var curL=typeof curLang!=='undefined'?curLang:'tr';
+  var curL=typeof curLang!=='undefined'?curLang:'en';
+  var cl=getCL();
   document.getElementById('clVersion').textContent='CoinFlow v'+APP_VERSION;
-  document.getElementById('clDate').textContent=CHANGELOG[0].date;
+  document.getElementById('clDate').textContent=cl[0].date;
+  var okBtn=document.getElementById('clOkBtn');
+  if(okBtn)okBtn.textContent=(curL==='tr'?'Tamam':curL==='de'?'OK':curL==='ar'?'حسناً':'OK')+' 🚀';
   var html='';
-  CHANGELOG.forEach(function(ver,vi){
+  cl.forEach(function(ver,vi){
     if(vi>0)html+='<div style="border-top:1px solid var(--border);margin:14px 0"></div>';
     if(vi>0)html+='<div style="font-size:14px;font-weight:800;margin-bottom:8px">v'+ver.version+' <span style="color:var(--t3);font-weight:400;font-size:10px">'+ver.date+'</span></div>';
     ver.sections.forEach(function(sec){
@@ -985,7 +993,7 @@ de:{
   budgetExceeded:"Budget überschritten!",budgetWarnPct:"{pct}% des Budgets ausgegeben!",catLimitExceeded:"Limit überschritten!",catLimitWarn:"nähert sich dem Limit!",
   dailySummaryTitle:"Tagesübersicht",todaySpent:"Heute ausgegeben",todayRemaining:"Heute verbleibend",motivationGood:"Du machst das super! 💪",motivationWarn:"Gib vorsichtig aus! ⚡",motivationBad:"Budget überschritten! 🚨",noSpendToday:"Heute keine Ausgaben 🎉"
 }};
-let curLang="tr";
+let curLang=(function(){var bl=navigator.language||navigator.userLanguage||"tr";bl=bl.toLowerCase().slice(0,2);if(["tr","en","ar","de"].indexOf(bl)!==-1)return bl;return"en"})();
 function t(key){return L[curLang]?.[key]||L.tr[key]||key}
 function getCatLabel(id){const map={aile:"c_aile",burs:"c_burs",parttime:"c_parttime",dolar_gelir:"c_dolar",diger_gelir:"c_otherInc",yemek:"c_food",ulasim:"c_transport",kira:"c_rent",egitim:"c_education",eglence:"c_entertainment",giyim:"c_clothing",saglik:"c_health",teknoloji:"c_tech",market:"c_grocery",abonelik:"c_subscription",diger_gider:"c_otherExp"};return map[id]?t(map[id]):null}
 function getMO(){return L[curLang]?.months||L.tr.months}
@@ -1594,7 +1602,7 @@ if("serviceWorker"in navigator){const sw=`const C="bv5";self.addEventListener("i
 
 // ===== WELCOME & GREETING =====
 function checkWelcome(){if(!D.userName){document.getElementById("welcomeModal").classList.remove("hidden")}}
-function saveUserName(){var name=document.getElementById("welcomeNameInput").value.trim();if(!name){showToast("İsmini yaz!");return}D.userName=name;save();document.getElementById("welcomeModal").classList.add("hidden");renderGreeting();showToast("Hoşgeldin "+name+"! 🎉")}
+function saveUserName(){var name=document.getElementById("welcomeNameInput").value.trim();if(!name){showToast(curLang==="en"?"Enter your name!":curLang==="ar"?"!أدخل اسمك":curLang==="de"?"Gib deinen Namen ein!":"İsmini yaz!");return}D.userName=name;save();document.getElementById("welcomeModal").classList.add("hidden");renderGreeting();showToast((curLang==="en"?"Welcome ":curLang==="ar"?"!مرحباً ":curLang==="de"?"Willkommen ":"Hoşgeldin ")+name+"! 🎉")}
 function renderGreeting(){var bar=document.getElementById("greetingBar");if(!D.userName){bar.style.display="none";return}bar.style.display="block";document.getElementById("greetName").textContent=D.userName;var h=new Date().getHours();var icon,text;if(h>=5&&h<12){icon="☀️";text=t("goodMorning")}else if(h>=12&&h<18){icon="🌤️";text=t("goodAfternoon")}else if(h>=18&&h<22){icon="🌅";text=t("goodEvening")}else{icon="🌙";text=t("goodNight")}document.getElementById("greetTimeIcon").textContent=icon;document.getElementById("greetTimeText").textContent=text}
 
 // ===== DAILY SUMMARY =====
@@ -2148,7 +2156,7 @@ function sidebarNav(n,el){
 }
 
 // Init
-load();loadScale();checkPinOnStart();processRecurring();render();fetchRates();checkWelcome();
+load();loadScale();checkPinOnStart();processRecurring();render();fetchRates();translateUI();checkWelcome();
 setTimeout(function(){if(!D.lastVersion||D.lastVersion!==APP_VERSION){showChangelog()}},1200);
 setTimeout(function(){checkWeeklySummary()},2500);
 setTimeout(function(){checkPaymentReminders()},4000);
