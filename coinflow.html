@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#050509">
 <meta name="color-scheme" content="dark">
 <title>CoinFlow</title>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6424185514673104" crossorigin="anonymous"></script>
+<!-- AdSense: dinamik yüklenir, sadece içerik varsa -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
@@ -592,7 +592,7 @@ canvas{max-width:100%!important}
     <div id="tickerWrap" style="margin:0 16px 8px;overflow:hidden;border-radius:12px;background:var(--card);border:1px solid var(--border);padding:8px 0"><div id="tickerTrack" style="display:flex;gap:20px;animation:tickerScroll 25s linear infinite;white-space:nowrap;padding:0 10px"></div></div>
     <!-- Smart Insights -->
     <div id="insightsSec" class="sec" style="margin-top:6px;display:none"><div class="sh"><div class="st" data-t="smartTips">🧠 Akıllı İpuçları</div></div><div id="insightsL"></div></div>
-    <div class="ad-slot" id="adSlot1" style="display:none"><div class="ad-slot-label">reklam</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6424185514673104" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
+    <div class="ad-slot" id="adSlot1" style="display:none"></div>
     <div class="sec" style="margin-top:6px"><div class="sh"><div class="st" data-t="budgetLimit">Bütçe Limiti</div><button class="lnk" onclick="openBudgetModal()" id="budgetBtn">Belirle</button></div><div id="budgetC" class="crd"></div></div>
     <!-- Heatmap Calendar -->
     <div class="sec" style="margin-top:8px"><div class="sh"><div class="st" data-t="spendingCalendar">📅 Harcama Takvimi</div></div><div class="crd"><div class="heatmap" id="heatmapGrid"></div></div></div>
@@ -601,7 +601,7 @@ canvas{max-width:100%!important}
     <div id="challengesSec" class="sec" style="margin-top:8px"><div class="sh"><div class="st" data-t="challenges">⚔️ Görevler</div></div><div id="challengesL" class="desktop-grid"></div></div>
     <div id="badgesSec" class="sec" style="margin-top:8px"><div class="sh"><div class="st" data-t="badges">🏆 Rozetler</div></div><div id="badgesDisplay" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none"></div></div>
     <div id="quickAddSec" class="sec" style="display:none;margin-top:8px"><div class="sh"><div class="st" data-t="quickAdd">⚡ Hızlı Ekle</div></div><div id="quickAddBtns" style="display:flex;gap:4px;flex-wrap:wrap"></div></div>
-    <div class="ad-slot" id="adSlot2" style="display:none"><div class="ad-slot-label">reklam</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6424185514673104" data-ad-slot="2222222222" data-ad-format="fluid" data-ad-layout-key="-6t+ed+2i-1n-4w"></ins></div>
+    <div class="ad-slot" id="adSlot2" style="display:none"></div>
     <div class="sec" style="margin-top:10px"><div class="sh"><div class="st" data-t="recentTx">Son İşlemler</div><button id="seeAll" class="lnk" style="display:none" onclick="showPg('pageDetail')">Tümü</button></div><div id="recentL"></div></div>
   </div>
   <div id="t1" style="display:none"><div class="sec" style="margin-top:0"><div class="sh"><div class="st" data-t="analysis">Aylık Karşılaştırma</div></div><div class="chart-w"><canvas id="monthlyChart"></canvas></div></div><div class="sec"><div class="sh"><div class="st" data-t="analysis">Pasta Grafik</div></div><div class="chart-w"><canvas id="pieChart"></canvas></div></div><div class="sec"><div class="sh"><div class="st" data-t="analysis">Haftalık Harcama</div></div><div id="weeklyBrk"></div></div><div class="sec"><div class="sh"><div class="st" data-t="forex">Dolar Kur Grafiği</div></div><div class="chart-w"><canvas id="curChart"></canvas></div></div></div>
@@ -2153,15 +2153,28 @@ setTimeout(function(){if(!D.lastVersion||D.lastVersion!==APP_VERSION){showChange
 setTimeout(function(){checkWeeklySummary()},2500);
 setTimeout(function(){checkPaymentReminders()},4000);
 setTimeout(()=>{var s=document.getElementById("splash");if(s){s.classList.add("out");setTimeout(()=>s.style.display="none",500)}},1800);
-// Reklamları içerik yüklendikten sonra göster (AdSense politikası)
+// AdSense: SADECE içerik varsa yükle (Google politikası)
 function showAdsIfContent(){
-  var hasContent=D.entries&&D.entries.length>0;
-  if(hasContent){
+  var hasContent=D.entries&&D.entries.length>=3;
+  if(!hasContent)return; // İçerik yoksa AdSense hiç yüklenmesin
+  // AdSense scriptini dinamik yükle
+  var scr=document.createElement("script");
+  scr.async=true;
+  scr.src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6424185514673104";
+  scr.crossOrigin="anonymous";
+  scr.onload=function(){
     var s1=document.getElementById("adSlot1"),s2=document.getElementById("adSlot2");
-    if(s1)s1.style.display="block";
-    if(s2)s2.style.display="block";
+    if(s1){
+      s1.innerHTML='<div class="ad-slot-label">reklam</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6424185514673104" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>';
+      s1.style.display="block";
+    }
+    if(s2){
+      s2.innerHTML='<div class="ad-slot-label">reklam</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6424185514673104" data-ad-slot="2222222222" data-ad-format="fluid" data-ad-layout-key="-6t+ed+2i-1n-4w"></ins>';
+      s2.style.display="block";
+    }
     try{(adsbygoogle=window.adsbygoogle||[]).push({});(adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){}
-  }
+  };
+  document.head.appendChild(scr);
 }
 setTimeout(showAdsIfContent,3000);
 </script>
