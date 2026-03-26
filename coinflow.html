@@ -711,15 +711,15 @@ canvas{max-width:100%!important}
     <button class="sbtn red" onclick="document.getElementById('resetModal').classList.remove('hidden')" data-t="resetAll">🔄 Tüm Verileri Sıfırla</button>
     <button class="sbtn" style="margin-top:8px;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff" onclick="shareApp()">📤 <span data-t="shareApp">Arkadaşına Öner</span></button>
     <button class="sbtn" style="margin-top:8px;background:var(--card);border:1px solid var(--border);color:var(--t2)" onclick="showChangelog()">📋 v4.2 — <span data-t="changelogBtn">Güncelleme Geçmişi</span></button>
-    <div id="userCounterSettings" style="margin-top:16px;text-align:center;padding:16px;border-radius:14px;background:linear-gradient(135deg,var(--abg),var(--gbg));border:1px solid var(--ab)">
-      <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px" data-t="communityStats">Community</div>
+    <div id="userCounterSettings" style="display:none;margin-top:16px;text-align:center;padding:16px;border-radius:14px;background:linear-gradient(135deg,var(--abg),var(--gbg));border:1px solid var(--ab)">
+      <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Admin Stats</div>
       <div style="display:flex;justify-content:center;gap:20px;align-items:center">
-        <div><div id="totalUsersSettings" style="font-size:24px;font-weight:800;color:var(--accent)">—</div><div style="font-size:9px;color:var(--t3)" data-t="totalUsers">Total Users</div></div>
+        <div><div id="totalUsersSettings" style="font-size:24px;font-weight:800;color:var(--accent)">—</div><div style="font-size:9px;color:var(--t3)">Total Visits</div></div>
         <div style="width:1px;height:30px;background:var(--border)"></div>
-        <div><div id="activeNowSettings" style="font-size:24px;font-weight:800;color:var(--gold)">—</div><div style="font-size:9px;color:var(--t3)" data-t="activeNow">Active Now</div></div>
+        <div><div id="activeNowSettings" style="font-size:24px;font-weight:800;color:var(--gold)">—</div><div style="font-size:9px;color:var(--t3)">Active Now</div></div>
       </div>
     </div>
-    <div style="margin-top:12px;text-align:center;font-size:10px;color:var(--t3)">CoinFlow v4.2 — Made with ❤️</div>
+    <div style="margin-top:12px;text-align:center;font-size:10px;color:var(--t3)" onclick="this._tc=(this._tc||0)+1;if(this._tc>=7){localStorage.setItem('cf_admin','1');location.reload()}" >CoinFlow v4.2 — Made with ❤️</div>
   </div></div></div>
   <span id="themeBtn" style="display:none"></span>
 </div>
@@ -2200,33 +2200,27 @@ function showAdsIfContent(){
 }
 setTimeout(showAdsIfContent,3000);
 
-// ===== USER COUNTER =====
+// ===== USER COUNTER (admin only) =====
 (function(){
+  var isAdmin=localStorage.getItem('cf_admin')==='1';
   var NAMESPACE='coinflow-dedigital';
-  // Toplam kullanıcıları say (unique cihaz bazlı)
-  var uid=localStorage.getItem('cf_uid');
-  if(!uid){uid='u'+Date.now()+Math.random().toString(36).slice(2,8);localStorage.setItem('cf_uid',uid)}
-  // CountAPI ile toplam hit sayacı
+  // Her zaman sayacı artır (ama sadece admin görür)
   fetch('https://api.countapi.xyz/hit/'+NAMESPACE+'/visits').then(function(r){return r.json()}).then(function(d){
+    if(!isAdmin)return;
     var total=d.value||0;
-    // Toplam kullanıcıları göster
     var ts=document.getElementById('totalUsersSettings');
     if(ts)ts.textContent=total.toLocaleString();
-    // Aktif kullanıcı tahmini (son 5 dk içinde gelen trafik)
     var active=Math.max(1,Math.floor(total*0.02)+Math.floor(Math.random()*3));
     var as=document.getElementById('activeNowSettings');
     if(as)as.textContent=active;
+    // Admin panel göster
+    var panel=document.getElementById('userCounterSettings');
+    if(panel)panel.style.display='block';
     // Ana sayfa badge
     var badge=document.getElementById('liveUserBadge');
     var lc=document.getElementById('liveUserCount');
     if(badge&&lc){lc.textContent=active;badge.style.display='inline-flex'}
-  }).catch(function(){
-    // CountAPI çalışmazsa localStorage tabanlı fallback
-    var visits=parseInt(localStorage.getItem('cf_visits')||'0')+1;
-    localStorage.setItem('cf_visits',visits.toString());
-    var ts=document.getElementById('totalUsersSettings');
-    if(ts)ts.textContent=visits.toLocaleString();
-  });
+  }).catch(function(){});
 })();
 </script>
 </body>
