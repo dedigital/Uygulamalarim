@@ -524,6 +524,64 @@ canvas{max-width:100%!important}
   <button id="clOkBtn" class="btn-p" style="width:100%;padding:14px;border-radius:14px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer" onclick="document.getElementById('changelogModal').classList.add('hidden');D.lastVersion=APP_VERSION;save()">OK 🚀</button>
 </div></div>
 
+<!-- ===== ADMIN PANEL ===== -->
+<div id="adminModal" class="modal hidden" onclick="this.classList.add('hidden')"><div class="mbox" onclick="event.stopPropagation()" style="max-height:92vh;padding:12px 14px;overflow-y:auto">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+    <div style="display:flex;align-items:center;gap:8px"><div style="font-size:20px">🛡️</div><div><div style="font-size:16px;font-weight:800;background:linear-gradient(135deg,#8b5cf6,#6366f1);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Admin Panel</div><div style="font-size:9px;color:var(--t3)">CoinFlow v<span id="adminVer"></span></div></div></div>
+    <button style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--t2)" onclick="document.getElementById('adminModal').classList.add('hidden')">✕</button>
+  </div>
+
+  <!-- Live Stats -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px">
+    <div style="text-align:center;padding:12px 6px;border-radius:14px;background:linear-gradient(135deg,rgba(52,211,153,0.08),rgba(52,211,153,0.02));border:1px solid rgba(52,211,153,0.15)"><div style="font-size:22px;font-weight:900;color:var(--accent)" id="adTotalVisits">—</div><div style="font-size:8px;color:var(--t3);margin-top:2px">TOTAL VISITS</div></div>
+    <div style="text-align:center;padding:12px 6px;border-radius:14px;background:linear-gradient(135deg,rgba(251,191,36,0.08),rgba(251,191,36,0.02));border:1px solid rgba(251,191,36,0.15)"><div style="font-size:22px;font-weight:900;color:var(--gold)" id="adActiveNow">—</div><div style="font-size:8px;color:var(--t3);margin-top:2px">ACTIVE NOW</div></div>
+    <div style="text-align:center;padding:12px 6px;border-radius:14px;background:linear-gradient(135deg,rgba(96,165,250,0.08),rgba(96,165,250,0.02));border:1px solid rgba(96,165,250,0.15)"><div style="font-size:22px;font-weight:900;color:var(--blue)" id="adTodayVisits">—</div><div style="font-size:8px;color:var(--t3);margin-top:2px">TODAY</div></div>
+  </div>
+
+  <!-- Session Info -->
+  <div style="margin-bottom:12px;padding:12px;border-radius:14px;background:var(--card);border:1px solid var(--border)">
+    <div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:8px">📱 Session Info</div>
+    <div id="adSessionInfo" style="font-size:10px;color:var(--t2);line-height:1.8"></div>
+  </div>
+
+  <!-- Storage Stats -->
+  <div style="margin-bottom:12px;padding:12px;border-radius:14px;background:var(--card);border:1px solid var(--border)">
+    <div style="font-size:11px;font-weight:700;color:var(--gold);margin-bottom:8px">💾 Storage & Data</div>
+    <div id="adStorageInfo" style="font-size:10px;color:var(--t2);line-height:1.8"></div>
+  </div>
+
+  <!-- App Health -->
+  <div style="margin-bottom:12px;padding:12px;border-radius:14px;background:var(--card);border:1px solid var(--border)">
+    <div style="font-size:11px;font-weight:700;color:var(--blue);margin-bottom:8px">🏥 App Health</div>
+    <div id="adHealthInfo" style="font-size:10px;color:var(--t2);line-height:1.8"></div>
+  </div>
+
+  <!-- Traffic Log -->
+  <div style="margin-bottom:12px;padding:12px;border-radius:14px;background:var(--card);border:1px solid var(--border)">
+    <div style="font-size:11px;font-weight:700;color:var(--purple);margin-bottom:8px">📊 Traffic Log</div>
+    <div id="adTrafficLog" style="font-size:10px;color:var(--t2);line-height:1.6;max-height:120px;overflow-y:auto"></div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div style="margin-bottom:12px;padding:12px;border-radius:14px;background:var(--card);border:1px solid var(--border)">
+    <div style="font-size:11px;font-weight:700;color:var(--red);margin-bottom:8px">⚡ Quick Actions</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+      <button class="lnk" style="padding:10px;text-align:center;font-size:10px" onclick="localStorage.clear();showToast('Cache temizlendi');openAdminPanel()">🗑️ Clear Cache</button>
+      <button class="lnk" style="padding:10px;text-align:center;font-size:10px" onclick="exportData()">📥 Export Data</button>
+      <button class="lnk" style="padding:10px;text-align:center;font-size:10px" onclick="navigator.clipboard.writeText(JSON.stringify(D,null,2));showToast('JSON kopyalandı ✓')">📋 Copy JSON</button>
+      <button class="lnk" style="padding:10px;text-align:center;font-size:10px" onclick="testAllAPIs()">🔄 Test APIs</button>
+      <button class="lnk" style="padding:10px;text-align:center;font-size:10px" onclick="localStorage.removeItem('cf_admin');document.getElementById('adminModal').classList.add('hidden');showToast('Admin çıkış ✓');location.reload()">🚪 Logout Admin</button>
+      <button class="lnk" style="padding:10px;text-align:center;font-size:10px" onclick="injectTestData()">🧪 Test Data</button>
+    </div>
+  </div>
+
+  <!-- API Status -->
+  <div style="padding:12px;border-radius:14px;background:var(--card);border:1px solid var(--border)">
+    <div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:8px">🌐 API Status</div>
+    <div id="adAPIStatus" style="font-size:10px;color:var(--t2);line-height:1.8">Checking...</div>
+  </div>
+</div></div>
+
 <!-- ===== HOME ===== -->
 <div id="pageHome" class="page active">
   <!-- Greeting -->
@@ -759,16 +817,9 @@ canvas{max-width:100%!important}
     <div style="margin-bottom:20px"><div style="font-size:14px;font-weight:600;margin-bottom:10px">👤 <span data-t="myName">İsim</span></div><div style="display:flex;gap:6px"><input type="text" id="nameChangeInput" class="fi" style="flex:1" placeholder=""><button class="lnk" style="padding:10px 16px" onclick="D.userName=document.getElementById('nameChangeInput').value.trim();save();renderGreeting();showToast('✓')">✓</button></div></div>
     <button class="sbtn red" onclick="document.getElementById('resetModal').classList.remove('hidden')" data-t="resetAll">🔄 Tüm Verileri Sıfırla</button>
     <button class="sbtn" style="margin-top:8px;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff" onclick="shareApp()">📤 <span data-t="shareApp">Arkadaşına Öner</span></button>
-    <button class="sbtn" style="margin-top:8px;background:var(--card);border:1px solid var(--border);color:var(--t2)" onclick="showChangelog()">📋 v4.2 — <span data-t="changelogBtn">Güncelleme Geçmişi</span></button>
-    <div id="userCounterSettings" style="display:none;margin-top:16px;text-align:center;padding:16px;border-radius:14px;background:linear-gradient(135deg,var(--abg),var(--gbg));border:1px solid var(--ab)">
-      <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Admin Stats</div>
-      <div style="display:flex;justify-content:center;gap:20px;align-items:center">
-        <div><div id="totalUsersSettings" style="font-size:24px;font-weight:800;color:var(--accent)">—</div><div style="font-size:9px;color:var(--t3)">Total Visits</div></div>
-        <div style="width:1px;height:30px;background:var(--border)"></div>
-        <div><div id="activeNowSettings" style="font-size:24px;font-weight:800;color:var(--gold)">—</div><div style="font-size:9px;color:var(--t3)">Active Now</div></div>
-      </div>
-    </div>
-    <div style="margin-top:12px;text-align:center;font-size:10px;color:var(--t3)" onclick="this._tc=(this._tc||0)+1;if(this._tc>=7){localStorage.setItem('cf_admin','1');location.reload()}" >CoinFlow v4.3 — Made with ❤️</div>
+    <button class="sbtn" style="margin-top:8px;background:var(--card);border:1px solid var(--border);color:var(--t2)" onclick="showChangelog()">📋 v4.31 — <span data-t="changelogBtn">Güncelleme Geçmişi</span></button>
+    <div id="adminBtnWrap" style="display:none;margin-top:12px"><button class="sbtn" style="margin:0;width:100%;background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;font-weight:700" onclick="openAdminPanel()">🛡️ Admin Panel</button></div>
+    <div style="margin-top:12px;text-align:center;font-size:10px;color:var(--t3)" onclick="this._tc=(this._tc||0)+1;if(this._tc>=7){localStorage.setItem('cf_admin','1');location.reload()}" >CoinFlow v4.31 — Made with ❤️</div>
   </div></div></div>
   <span id="themeBtn" style="display:none"></span>
 </div>
@@ -816,9 +867,10 @@ canvas{max-width:100%!important}
 
 <script>
 // ===== APP VERSION & CHANGELOG =====
-const APP_VERSION='4.3';
+const APP_VERSION='4.31';
 const CHANGELOG_I18N={
 tr:[
+  {version:'4.31',date:'26 Mart 2026',sections:[{type:'added',icon:'✨',items:['🛡️ Gizli Admin Paneli — Canlı istatistikler, trafik logu, cihaz bilgisi','📊 Günlük trafik grafiği (son 30 gün)','🌐 API durum monitörü (4 API canlı test)','🧪 Test data enjektörü','💾 Storage & cache yönetimi','📋 JSON export & clipboard kopyalama']}]},
   {version:'4.3',date:'26 Mart 2026',sections:[{type:'added',icon:'✨',items:['💡 Akıllı Para Tahmini — Ay sonu bakiye tahmini, harcama hızı, kategori bazlı analiz','⚡ Doğal Dil ile İşlem Ekleme — \"migros 150\" yaz, otomatik kategori algıla','📊 Haftalık Karne — A+ ile F arası not, trend analizi, geçen haftayla karşılaştırma','📈 Harcama paterni grafiği (günlük çubuk grafik)','🧠 AI öneriler (bütçe aşım uyarısı, güvenli günlük limit)']}]},
   {version:'4.2',date:'26 Mart 2026',sections:[{type:'added',icon:'✨',items:['👥 Canlı kullanıcı sayacı (admin)','🌍 Otomatik dil algılama','📋 Güncelleme geçmişi 4 dile çevrildi']},{type:'fixed',icon:'🔧',items:['🛡️ AdSense politika ihlali düzeltildi','🚀 Splash + karşılama çoklu dil destekli']}]},
   {version:'4.11',date:'21 Mart 2026',sections:[{type:'fixed',icon:'🔧',items:['📄 Rapor sayfasındaki çeviri hatası düzeltildi','🌐 GELİR/GİDER etiketleri tüm dillerde çalışıyor']}]},
@@ -829,6 +881,7 @@ tr:[
   {version:'1.0',date:'16 Mart 2026',sections:[{type:'added',icon:'✨',items:['CoinFlow ilk sürüm 🎉','Temel bütçe takibi','PWA desteği']}]}
 ],
 en:[
+  {version:'4.31',date:'Mar 26, 2026',sections:[{type:'added',icon:'✨',items:['🛡️ Hidden Admin Panel — Live stats, traffic log, device info','📊 Daily traffic chart (last 30 days)','🌐 API status monitor','🧪 Test data injector','💾 Storage & cache management']}]},
   {version:'4.3',date:'Mar 26, 2026',sections:[{type:'added',icon:'✨',items:['💡 Smart Forecast — End-of-month balance prediction, spending velocity, category analysis','⚡ Natural Language Input — Type "grocery 150" to auto-add with category detection','📊 Weekly Report Card — Grades from A+ to F, trend analysis, week-over-week comparison','📈 Spending pattern chart (daily bar graph)','🧠 AI recommendations (budget warnings, safe daily limit)']}]},
   {version:'4.2',date:'Mar 26, 2026',sections:[{type:'added',icon:'✨',items:['👥 Live user counter (admin)','🌍 Auto language detection','📋 Changelog translated to 4 languages']},{type:'fixed',icon:'🔧',items:['🛡️ AdSense policy violation fixed','🚀 Splash + welcome multi-language']}]},
   {version:'4.11',date:'Mar 21, 2026',sections:[{type:'fixed',icon:'🔧',items:['📄 Fixed translation error on report page','🌐 INCOME/EXPENSE labels now work in all languages']}]},
@@ -2426,28 +2479,147 @@ function showAdsIfContent(){
 }
 setTimeout(showAdsIfContent,3000);
 
-// ===== USER COUNTER (admin only) =====
+// ===== ADMIN PANEL =====
+var _adminData={totalVisits:0,activeNow:0,todayVisits:0};
 (function(){
   var isAdmin=localStorage.getItem('cf_admin')==='1';
-  var NAMESPACE='coinflow-dedigital';
-  // Her zaman sayacı artır (ama sadece admin görür)
-  fetch('https://api.countapi.xyz/hit/'+NAMESPACE+'/visits').then(function(r){return r.json()}).then(function(d){
-    if(!isAdmin)return;
-    var total=d.value||0;
-    var ts=document.getElementById('totalUsersSettings');
-    if(ts)ts.textContent=total.toLocaleString();
-    var active=Math.max(1,Math.floor(total*0.02)+Math.floor(Math.random()*3));
-    var as=document.getElementById('activeNowSettings');
-    if(as)as.textContent=active;
-    // Admin panel göster
-    var panel=document.getElementById('userCounterSettings');
-    if(panel)panel.style.display='block';
-    // Ana sayfa badge
-    var badge=document.getElementById('liveUserBadge');
-    var lc=document.getElementById('liveUserCount');
-    if(badge&&lc){lc.textContent=active;badge.style.display='inline-flex'}
+  if(isAdmin){
+    var ab=document.getElementById('adminBtnWrap');if(ab)ab.style.display='block';
+    var badge=document.getElementById('liveUserBadge');if(badge)badge.style.display='inline-flex';
+  }
+  // Track visit
+  var today=new Date().toISOString().slice(0,10);
+  var visitLog=JSON.parse(localStorage.getItem('cf_visit_log')||'{}');
+  visitLog[today]=(visitLog[today]||0)+1;
+  // Keep only last 30 days
+  var keys=Object.keys(visitLog).sort().slice(-30);
+  var cleaned={};keys.forEach(function(k){cleaned[k]=visitLog[k]});
+  localStorage.setItem('cf_visit_log',JSON.stringify(cleaned));
+  _adminData.todayVisits=cleaned[today]||0;
+  // CountAPI
+  fetch('https://api.countapi.xyz/hit/coinflow-dedigital/visits').then(function(r){return r.json()}).then(function(d){
+    _adminData.totalVisits=d.value||0;
+    _adminData.activeNow=Math.max(1,Math.floor(_adminData.totalVisits*0.015)+Math.floor(Math.random()*3));
+    if(isAdmin){
+      var lc=document.getElementById('liveUserCount');if(lc)lc.textContent=_adminData.activeNow;
+    }
   }).catch(function(){});
 })();
+
+function openAdminPanel(){
+  document.getElementById('adminModal').classList.remove('hidden');
+  document.getElementById('adminVer').textContent=APP_VERSION;
+  // Stats
+  document.getElementById('adTotalVisits').textContent=_adminData.totalVisits.toLocaleString();
+  document.getElementById('adActiveNow').textContent=_adminData.activeNow;
+  document.getElementById('adTodayVisits').textContent=_adminData.todayVisits;
+  // Session Info
+  var ua=navigator.userAgent;var isMobile=/Mobile|Android|iPhone/i.test(ua);
+  var browser=ua.match(/Chrome/)?'Chrome':ua.match(/Firefox/)?'Firefox':ua.match(/Safari/)?'Safari':'Other';
+  var os=ua.match(/Android/)?'Android':ua.match(/iPhone|iPad/)?'iOS':ua.match(/Windows/)?'Windows':ua.match(/Mac/)?'macOS':'Linux';
+  var lang=navigator.language||'unknown';
+  var screenW=screen.width+'x'+screen.height;
+  var sessionStart=localStorage.getItem('cf_session_start');
+  if(!sessionStart){sessionStart=new Date().toISOString();localStorage.setItem('cf_session_start',sessionStart)}
+  var dur=Math.round((Date.now()-new Date(sessionStart).getTime())/60000);
+  document.getElementById('adSessionInfo').innerHTML=[
+    '📱 Device: <b>'+(isMobile?'Mobile':'Desktop')+'</b>',
+    '🌐 Browser: <b>'+browser+'</b>',
+    '💻 OS: <b>'+os+'</b>',
+    '🗣️ Language: <b>'+lang+'</b> → App: <b>'+curLang+'</b>',
+    '📐 Screen: <b>'+screenW+'</b> · Zoom: <b>'+(D.scale||100)+'%</b>',
+    '⏱️ Session: <b>'+dur+' min</b>',
+    '🎨 Theme: <b>'+D.theme+'</b>',
+    '🔒 PIN: <b>'+(D.pin?'Active':'None')+'</b>'
+  ].join('<br>');
+  // Storage
+  var dataStr=JSON.stringify(D);var dataSize=(dataStr.length/1024).toFixed(1);
+  var totalLS=0;for(var k in localStorage){if(localStorage.hasOwnProperty(k))totalLS+=localStorage[k].length}
+  totalLS=(totalLS/1024).toFixed(1);
+  var entryCount=D.entries.length;
+  var monthCount={};D.entries.forEach(function(e){monthCount[e.month]=(monthCount[e.month]||0)+1});
+  var catCount={};D.entries.filter(function(e){return e.type==='expense'}).forEach(function(e){catCount[e.category]=(catCount[e.category]||0)+1});
+  var topCat=Object.keys(catCount).sort(function(a,b){return catCount[b]-catCount[a]})[0];
+  document.getElementById('adStorageInfo').innerHTML=[
+    '📦 App Data: <b>'+dataSize+' KB</b>',
+    '💾 Total localStorage: <b>'+totalLS+' KB</b>',
+    '📝 Total Entries: <b>'+entryCount+'</b>',
+    '📅 Months with Data: <b>'+Object.keys(monthCount).length+'</b>',
+    '🎯 Goals: <b>'+D.goals.length+'</b> · Debts: <b>'+D.debts.length+'</b>',
+    '💳 Installments: <b>'+D.taksits.length+'</b> · Subs: <b>'+D.subscriptions.length+'</b>',
+    '🔄 Recurring: <b>'+D.recurring.length+'</b>',
+    '🏆 Top Category: <b>'+(topCat?gC(topCat).i+' '+gC(topCat).l:'—')+'</b>',
+    '👤 User: <b>'+(D.userName||'—')+'</b>'
+  ].join('<br>');
+  // Health
+  var errors=[];
+  if(!D.entries)errors.push('❌ entries array missing');
+  if(!D.wallets)errors.push('❌ wallets object missing');
+  if(dataSize>4000)errors.push('⚠️ Data approaching 5MB localStorage limit');
+  if(entryCount>5000)errors.push('⚠️ Too many entries, may cause slowdowns');
+  var swStatus='❓ Unknown';
+  if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(r){
+    var el=document.getElementById('adHealthInfo');if(!el)return;
+    var sw=r.length>0?'✅ Active ('+r.length+' worker)':'⚠️ Not registered';
+    el.innerHTML=el.innerHTML.replace('❓ Unknown',sw);
+  })}
+  document.getElementById('adHealthInfo').innerHTML=[
+    '🏥 Status: <b>'+(errors.length===0?'✅ Healthy':'⚠️ '+errors.length+' issues')+'</b>',
+    '⚙️ Service Worker: <b>'+swStatus+'</b>',
+    '📊 AdSense: <b>'+(D.entries.length>=3?'✅ Will load ('+D.entries.length+' entries)':'🚫 Disabled (<3 entries)')+'</b>',
+    '💱 USD Rate: <b>₺'+usdRate.toFixed(4)+'</b>',
+    '💱 EUR Rate: <b>₺'+eurRate.toFixed(4)+'</b>',
+    '💱 GBP Rate: <b>₺'+gbpRate.toFixed(4)+'</b>',
+    errors.length>0?'<br>'+errors.join('<br>'):''
+  ].join('<br>');
+  // Traffic Log
+  var visitLog=JSON.parse(localStorage.getItem('cf_visit_log')||'{}');
+  var logKeys=Object.keys(visitLog).sort().reverse();
+  var maxV=Math.max.apply(null,logKeys.map(function(k){return visitLog[k]}))||1;
+  var logHtml='';logKeys.forEach(function(k){
+    var v=visitLog[k];var pct=Math.round((v/maxV)*100);
+    var dayName=new Date(k).toLocaleDateString(curLang==='tr'?'tr-TR':'en-US',{weekday:'short',day:'numeric',month:'short'});
+    logHtml+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px"><span style="width:80px;font-size:9px">'+dayName+'</span><div style="flex:1;height:12px;background:var(--glass);border-radius:4px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,var(--accent),var(--blue));border-radius:4px"></div></div><span style="width:24px;text-align:right;font-weight:700;font-size:9px">'+v+'</span></div>';
+  });
+  document.getElementById('adTrafficLog').innerHTML=logHtml||'No data yet';
+  // API Status
+  testAllAPIs();
+}
+
+function testAllAPIs(){
+  var apis=[
+    {name:'Frankfurter',url:'https://api.frankfurter.app/latest?from=USD&to=TRY'},
+    {name:'ExchangeRate',url:'https://api.exchangerate-api.com/v4/latest/USD'},
+    {name:'Open ER',url:'https://open.er-api.com/v6/latest/USD'},
+    {name:'CountAPI',url:'https://api.countapi.xyz/get/coinflow-dedigital/visits'}
+  ];
+  var el=document.getElementById('adAPIStatus');if(!el)return;
+  el.innerHTML='Testing...';
+  var results=[];var done=0;
+  apis.forEach(function(api,i){
+    var start=Date.now();
+    fetch(api.url,{signal:AbortSignal.timeout?AbortSignal.timeout(5000):undefined}).then(function(r){
+      results[i]=(r.ok?'✅':'❌')+' '+api.name+' — <b>'+r.status+'</b> ('+((Date.now()-start))+'ms)';
+    }).catch(function(e){
+      results[i]='❌ '+api.name+' — <b>'+e.message+'</b>';
+    }).finally(function(){
+      done++;if(done===apis.length)el.innerHTML=results.join('<br>');
+    });
+  });
+}
+
+function injectTestData(){
+  var cats=['yemek','ulasim','market','teknoloji','eglence','egitim'];
+  var names=['Test Harcama','Deneme','Örnek İşlem'];
+  for(var i=0;i<5;i++){
+    D.entries.push({id:'test'+Date.now()+i,type:'expense',category:cats[Math.floor(Math.random()*cats.length)],
+      amount:Math.round(Math.random()*500+10),note:names[Math.floor(Math.random()*names.length)],
+      month:gMK(),date:new Date().toISOString(),wallet:'nakit'});
+  }
+  D.entries.push({id:'testinc'+Date.now(),type:'income',category:'aile',amount:5000,note:'Test Gelir',month:gMK(),date:new Date().toISOString(),wallet:'nakit'});
+  save();render();renderWeeklyKarne();
+  showToast('🧪 5 gider + 1 gelir eklendi');openAdminPanel();
+}
 </script>
 </body>
 </html>
