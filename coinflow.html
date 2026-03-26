@@ -564,6 +564,7 @@ canvas{max-width:100%!important}
     <button class="tab" onclick="swTab(10,this)" data-t="subs" data-prefix="📺 ">📺 Abo</button>
     <button class="tab" onclick="swTab(5,this)" data-t="forex">Döviz</button>
     <button class="tab" onclick="swTab(11,this)" data-t="news" data-prefix="📰 ">📰 Haberler</button>
+    <button class="tab" onclick="swTab(15,this)" data-t="forecast" data-prefix="💡 ">💡 Tahmin</button>
     <button class="tab" onclick="swTab(14,this)" data-t="calculator" data-prefix="🧮 ">🧮 Hesapla</button>
     <button class="tab" onclick="swTab(6,this)" data-t="report">Rapor</button>
     <button class="tab" onclick="swTab(8,this)" data-t="projects" data-prefix="📁 ">📁 Proje</button>
@@ -602,6 +603,24 @@ canvas{max-width:100%!important}
     <!-- Challenges -->
     <div id="challengesSec" class="sec" style="margin-top:8px"><div class="sh"><div class="st" data-t="challenges">⚔️ Görevler</div></div><div id="challengesL" class="desktop-grid"></div></div>
     <div id="badgesSec" class="sec" style="margin-top:8px"><div class="sh"><div class="st" data-t="badges">🏆 Rozetler</div></div><div id="badgesDisplay" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none"></div></div>
+    <!-- NLP Quick Add -->
+    <div class="sec" style="margin-top:8px"><div class="sh"><div class="st" data-t="smartAdd">⚡ Akıllı Ekle</div></div>
+      <div style="display:flex;gap:6px;padding:0 2px"><input type="text" id="nlpInput" class="fi" style="flex:1;font-size:13px" placeholder="örn: migros 150, maaş 15000..." data-t-placeholder="nlpPlaceholder"><button onclick="parseNLP()" style="padding:10px 16px;border-radius:12px;background:var(--accent);color:#000;font-weight:700;border:none;font-size:16px;cursor:pointer">+</button></div>
+      <div id="nlpResult" style="display:none;margin-top:6px;padding:8px 12px;border-radius:10px;background:var(--abg);border:1px solid var(--ab);font-size:11px;color:var(--accent)"></div>
+    </div>
+    <!-- Weekly Report Card -->
+    <div id="weeklyKarneSec" class="sec" style="margin-top:8px;display:none"><div class="sh"><div class="st" data-t="weeklyGrade">📊 Haftalık Karne</div></div>
+      <div id="karneCard" style="padding:14px;border-radius:16px;background:linear-gradient(135deg,var(--card),var(--abg));border:1px solid var(--ab)">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:10px">
+          <div id="karneGrade" style="font-size:36px;font-weight:900;width:56px;height:56px;display:flex;align-items:center;justify-content:center;border-radius:16px;background:var(--abg);border:2px solid var(--ab)">—</div>
+          <div style="flex:1"><div id="karneTitle" style="font-size:14px;font-weight:700"></div><div id="karneSub" style="font-size:11px;color:var(--t2);margin-top:2px"></div></div>
+        </div>
+        <div id="karneStats" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px"></div>
+        <div id="karneTrend" style="font-size:11px;color:var(--t2);padding:8px;border-radius:10px;background:var(--card);border:1px solid var(--border)"></div>
+      </div>
+    </div>
+    <!-- Forecast Tab Link -->
+    <div class="sec" style="margin-top:8px"><button class="sbtn" style="margin:0;width:100%;background:linear-gradient(135deg,rgba(52,211,153,0.1),rgba(59,130,246,0.1));border:1px solid var(--ab);color:var(--accent)" onclick="swTab(15,null)" data-t="viewForecast">💡 Detaylı Para Tahmini Görüntüle →</button></div>
     <div id="quickAddSec" class="sec" style="display:none;margin-top:8px"><div class="sh"><div class="st" data-t="quickAdd">⚡ Hızlı Ekle</div></div><div id="quickAddBtns" style="display:flex;gap:4px;flex-wrap:wrap"></div></div>
     <div class="ad-slot" id="adSlot2" style="display:none"></div>
     <div class="sec" style="margin-top:10px"><div class="sh"><div class="st" data-t="recentTx">Son İşlemler</div><button id="seeAll" class="lnk" style="display:none" onclick="showPg('pageDetail')">Tümü</button></div><div id="recentL"></div></div>
@@ -612,6 +631,36 @@ canvas{max-width:100%!important}
   <div id="t4" style="display:none"><div class="sec" style="margin-top:0"><div class="sh"><div class="st" data-t="debtTracker">Borç Takibi</div><button class="lnk" onclick="document.getElementById('debtModal').classList.remove('hidden')" data-t="addDebt">+ Borç Ekle</button></div><div id="debtSummary" style="margin-bottom:10px"></div><div id="debtsL"></div></div><div class="sec" style="margin-top:12px"><div class="sh"><div class="st" data-t="sharedExpenses">👥 Ortak Harcamalar</div><button class="lnk" onclick="document.getElementById('sharedModal').classList.remove('hidden')" data-t="addNew">+ Ekle</button></div><div id="sharedL"></div></div></div>
   <div id="t5" style="display:none"><div class="sec" style="margin-top:0"><div class="sh"><div class="st" data-t="forexConverter">Döviz Çevirici</div></div><div id="convCard" class="conv-card"><div class="conv-row"><div class="conv-flag">🇺🇸</div><div class="conv-input"><div class="conv-label">Dollar (USD)</div><input type="number" id="convUSD" class="fi" placeholder="0" oninput="convert('usd')"></div></div><div class="conv-row"><div class="conv-flag">🇪🇺</div><div class="conv-input"><div class="conv-label">Euro (EUR)</div><input type="number" id="convEUR" class="fi" placeholder="0" oninput="convert('eur')"></div></div><div class="conv-row"><div class="conv-flag">🇬🇧</div><div class="conv-input"><div class="conv-label">Pound (GBP)</div><input type="number" id="convGBP" class="fi" placeholder="0" oninput="convert('gbp')"></div></div><div class="conv-row"><div class="conv-flag">🇹🇷</div><div class="conv-input"><div class="conv-label">Lira (TRY)</div><input type="number" id="convTRY" class="fi" placeholder="0" oninput="convert('try')"></div></div><div style="font-size:10px;color:var(--t3);margin-top:8px;text-align:center" id="convUpdate" data-t="ratesLoading">Kurlar yükleniyor...</div></div></div></div>
   <div id="t6" style="display:none"><div class="sec" style="margin-top:0"><div class="sh"><div class="st" data-t="monthlyReport">Ay Sonu Raporu</div></div><div class="crd" id="reportC"></div><button class="sbtn" style="margin:12px 16px 0" onclick="dlPDF()" data-t="downloadPDF">📄 PDF İndir</button></div><div class="sec"><div class="sh"><div class="st" data-t="weeklyReport">Haftalık Özet</div></div><div id="weeklyR" class="crd"></div></div><div class="sec"><div class="sh"><div class="st" data-t="comparison">📊 Geçen Aya Kıyasla</div></div><div class="crd" id="comparisonC"></div></div><div class="sec"><div class="sh"><div class="st" data-t="catBudgets">Kategori Bütçe Limitleri</div></div><div class="crd" id="catBudgetContent"></div><button class="sbtn" style="margin:8px 16px 0" onclick="saveCatBudgets()" data-t="saveLimits">Limitleri Kaydet</button></div><div class="sec"><div class="sh"><div class="st" data-t="backup">Veri Yedekleme</div></div><div class="backup-btns"><button class="backup-btn" onclick="exportData()" data-t="downloadBackup">📥 Yedek İndir</button><button class="backup-btn" onclick="document.getElementById('importFile').click()" data-t="uploadBackup">📤 Yedek Yükle</button></div></div><div class="sec"><button class="sbtn" style="margin:0;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff" onclick="showWrapped()" data-t="wrappedBtn">🎁 Wrapped (Wrapped)</button></div></div>
+  <!-- FORECAST TAB -->
+  <div id="t15" style="display:none">
+    <div class="sec" style="margin-top:0"><div class="sh"><div class="st" data-t="forecastTitle">💡 Akıllı Para Tahmini</div></div>
+      <div class="crd">
+        <div style="text-align:center;margin-bottom:14px">
+          <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px" data-t="endOfMonth">Ay Sonu Tahmini</div>
+          <div id="fcBigNum" style="font-size:32px;font-weight:900;margin:6px 0"></div>
+          <div id="fcBigLabel" style="font-size:12px;color:var(--t2)"></div>
+        </div>
+        <div id="fcWarning" style="display:none;padding:10px;border-radius:12px;margin-bottom:12px;font-size:12px;font-weight:600;text-align:center"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+          <div style="padding:10px;border-radius:12px;background:var(--abg);border:1px solid var(--ab);text-align:center"><div style="font-size:9px;color:var(--t3)" data-t="dailyAvg">Günlük Ort.</div><div id="fcDailyAvg" style="font-size:16px;font-weight:800;color:var(--accent)">—</div></div>
+          <div style="padding:10px;border-radius:12px;background:var(--rbg);border:1px solid var(--rb);text-align:center"><div style="font-size:9px;color:var(--t3)" data-t="daysLeft">Kalan Gün</div><div id="fcDaysLeft" style="font-size:16px;font-weight:800;color:var(--red)">—</div></div>
+          <div style="padding:10px;border-radius:12px;background:var(--gbg);border:1px solid rgba(251,191,36,0.12);text-align:center"><div style="font-size:9px;color:var(--t3)" data-t="spendVelocity">Harcama Hızı</div><div id="fcVelocity" style="font-size:16px;font-weight:800;color:var(--gold)">—</div></div>
+          <div style="padding:10px;border-radius:12px;background:var(--card);border:1px solid var(--border);text-align:center"><div style="font-size:9px;color:var(--t3)" data-t="safeDaily">Güvenli Günlük</div><div id="fcSafeDaily" style="font-size:16px;font-weight:800;color:var(--blue)">—</div></div>
+        </div>
+        <div style="font-size:12px;font-weight:700;margin-bottom:8px" data-t="categoryForecast">Kategori Bazlı Tahmin</div>
+        <div id="fcCatBreakdown"></div>
+      </div>
+    </div>
+    <div class="sec"><div class="sh"><div class="st" data-t="spendingPattern">📈 Harcama Paterni</div></div>
+      <div class="crd">
+        <div id="fcDayChart" style="display:flex;align-items:flex-end;gap:2px;height:100px;padding:8px 0"></div>
+        <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--t3);margin-top:4px"><span>1</span><span>5</span><span>10</span><span>15</span><span>20</span><span>25</span><span>30</span></div>
+      </div>
+    </div>
+    <div class="sec"><div class="sh"><div class="st" data-t="aiTips">🧠 AI Öneriler</div></div>
+      <div id="fcTips" class="crd"></div>
+    </div>
+  </div>
   <!-- Taksit Tab -->
   <div id="t9" style="display:none"><div class="sec" style="margin-top:0"><div class="sh"><div class="st" data-t="installmentTracker">💳 Taksit Takibi</div><button class="lnk" onclick="document.getElementById('taksitModal').classList.remove('hidden')" data-t="addInstallment">+ Taksit Ekle</button></div><div id="taksitSummary" style="margin-bottom:8px"></div><div id="taksitL" class="desktop-grid"></div></div></div>
   <!-- Subscriptions Tab -->
@@ -719,7 +768,7 @@ canvas{max-width:100%!important}
         <div><div id="activeNowSettings" style="font-size:24px;font-weight:800;color:var(--gold)">—</div><div style="font-size:9px;color:var(--t3)">Active Now</div></div>
       </div>
     </div>
-    <div style="margin-top:12px;text-align:center;font-size:10px;color:var(--t3)" onclick="this._tc=(this._tc||0)+1;if(this._tc>=7){localStorage.setItem('cf_admin','1');location.reload()}" >CoinFlow v4.2 — Made with ❤️</div>
+    <div style="margin-top:12px;text-align:center;font-size:10px;color:var(--t3)" onclick="this._tc=(this._tc||0)+1;if(this._tc>=7){localStorage.setItem('cf_admin','1');location.reload()}" >CoinFlow v4.3 — Made with ❤️</div>
   </div></div></div>
   <span id="themeBtn" style="display:none"></span>
 </div>
@@ -767,10 +816,11 @@ canvas{max-width:100%!important}
 
 <script>
 // ===== APP VERSION & CHANGELOG =====
-const APP_VERSION='4.2';
+const APP_VERSION='4.3';
 const CHANGELOG_I18N={
 tr:[
-  {version:'4.2',date:'26 Mart 2026',sections:[{type:'added',icon:'✨',items:['👥 Canlı kullanıcı sayacı (kaç kişi kullanıyor?)','🌍 Otomatik dil algılama (tarayıcı diline göre)','📋 Güncelleme geçmişi 4 dile çevrildi']},{type:'fixed',icon:'🔧',items:['🛡️ AdSense politika ihlali düzeltildi','🚀 Splash ekranı çoklu dil destekli','🔤 Karşılama ekranı artık doğru dilde açılıyor']}]},
+  {version:'4.3',date:'26 Mart 2026',sections:[{type:'added',icon:'✨',items:['💡 Akıllı Para Tahmini — Ay sonu bakiye tahmini, harcama hızı, kategori bazlı analiz','⚡ Doğal Dil ile İşlem Ekleme — \"migros 150\" yaz, otomatik kategori algıla','📊 Haftalık Karne — A+ ile F arası not, trend analizi, geçen haftayla karşılaştırma','📈 Harcama paterni grafiği (günlük çubuk grafik)','🧠 AI öneriler (bütçe aşım uyarısı, güvenli günlük limit)']}]},
+  {version:'4.2',date:'26 Mart 2026',sections:[{type:'added',icon:'✨',items:['👥 Canlı kullanıcı sayacı (admin)','🌍 Otomatik dil algılama','📋 Güncelleme geçmişi 4 dile çevrildi']},{type:'fixed',icon:'🔧',items:['🛡️ AdSense politika ihlali düzeltildi','🚀 Splash + karşılama çoklu dil destekli']}]},
   {version:'4.11',date:'21 Mart 2026',sections:[{type:'fixed',icon:'🔧',items:['📄 Rapor sayfasındaki çeviri hatası düzeltildi','🌐 GELİR/GİDER etiketleri tüm dillerde çalışıyor']}]},
   {version:'4.1',date:'19 Mart 2026',sections:[{type:'added',icon:'✨',items:['📤 Arkadaşına Öner butonu (WhatsApp/paylaşım)','📊 Haftalık özet popup (her Pazar otomatik)','🏦 Banka renkleri cüzdanlarda','🔔 Abonelik & taksit hatırlatıcı (3 gün kala uyarı)']}]},
   {version:'4.0',date:'19 Mart 2026',sections:[{type:'added',icon:'✨',items:['📊 Canlı Borsa/Kripto ticker','🧮 Kredi & Taksit Hesaplayıcı','🎨 Tema Mağazası (8 tema)','📸 Instagram Story kartı','📰 Ekonomi Haberleri','🤖 AI Finans Asistanı','🔄 Güncelleme geçmişi']},{type:'fixed',icon:'🔧',items:['Dil sistemi yeniden yazıldı','Tab ve çeviri düzeltmeleri','Safari API hatası düzeltildi']}]},
@@ -779,7 +829,8 @@ tr:[
   {version:'1.0',date:'16 Mart 2026',sections:[{type:'added',icon:'✨',items:['CoinFlow ilk sürüm 🎉','Temel bütçe takibi','PWA desteği']}]}
 ],
 en:[
-  {version:'4.2',date:'Mar 26, 2026',sections:[{type:'added',icon:'✨',items:['👥 Live user counter (see how many people use CoinFlow!)','🌍 Auto language detection (browser language)','📋 Changelog translated to 4 languages']},{type:'fixed',icon:'🔧',items:['🛡️ AdSense policy violation fixed','🚀 Splash screen multi-language support','🔤 Welcome screen now opens in correct language']}]},
+  {version:'4.3',date:'Mar 26, 2026',sections:[{type:'added',icon:'✨',items:['💡 Smart Forecast — End-of-month balance prediction, spending velocity, category analysis','⚡ Natural Language Input — Type "grocery 150" to auto-add with category detection','📊 Weekly Report Card — Grades from A+ to F, trend analysis, week-over-week comparison','📈 Spending pattern chart (daily bar graph)','🧠 AI recommendations (budget warnings, safe daily limit)']}]},
+  {version:'4.2',date:'Mar 26, 2026',sections:[{type:'added',icon:'✨',items:['👥 Live user counter (admin)','🌍 Auto language detection','📋 Changelog translated to 4 languages']},{type:'fixed',icon:'🔧',items:['🛡️ AdSense policy violation fixed','🚀 Splash + welcome multi-language']}]},
   {version:'4.11',date:'Mar 21, 2026',sections:[{type:'fixed',icon:'🔧',items:['📄 Fixed translation error on report page','🌐 INCOME/EXPENSE labels now work in all languages']}]},
   {version:'4.1',date:'Mar 19, 2026',sections:[{type:'added',icon:'✨',items:['📤 Share with friends button (WhatsApp)','📊 Weekly summary popup (auto every Sunday)','🏦 Bank colors for wallets','🔔 Subscription & installment reminders (3 days before)']}]},
   {version:'4.0',date:'Mar 19, 2026',sections:[{type:'added',icon:'✨',items:['📊 Live Stock/Crypto ticker','🧮 Loan & Installment Calculator','🎨 Theme Store (8 themes)','📸 Instagram Story card','📰 Economy News','🤖 AI Finance Assistant','🔄 Changelog popup']},{type:'fixed',icon:'🔧',items:['Language system rewritten','Tab & translation fixes','Safari API bug fixed']}]},
@@ -788,6 +839,7 @@ en:[
   {version:'1.0',date:'Mar 16, 2026',sections:[{type:'added',icon:'✨',items:['CoinFlow first release 🎉','Basic budget tracking','PWA support']}]}
 ],
 ar:[
+  {version:'4.3',date:'26 مارس 2026',sections:[{type:'added',icon:'✨',items:['💡 توقعات ذكية — توقع الرصيد نهاية الشهر','⚡ إدخال بلغة طبيعية — اكتب "سوبرماركت 150"','📊 بطاقة أسبوعية — درجات من A+ إلى F']}]},
   {version:'4.2',date:'26 مارس 2026',sections:[{type:'added',icon:'✨',items:['👥 عداد المستخدمين المباشر','🌍 كشف اللغة التلقائي','📋 سجل التحديثات بـ 4 لغات']},{type:'fixed',icon:'🔧',items:['🛡️ إصلاح انتهاك سياسة AdSense','🚀 شاشة البداية متعددة اللغات']}]},
   {version:'4.11',date:'21 مارس 2026',sections:[{type:'fixed',icon:'🔧',items:['📄 إصلاح خطأ الترجمة في صفحة التقرير','🌐 تسميات الدخل/المصروف تعمل بجميع اللغات']}]},
   {version:'4.1',date:'19 مارس 2026',sections:[{type:'added',icon:'✨',items:['📤 زر مشاركة مع الأصدقاء','📊 ملخص أسبوعي تلقائي','🏦 ألوان البنوك للمحافظ','🔔 تذكير الاشتراكات والأقساط']}]},
@@ -796,6 +848,7 @@ ar:[
   {version:'1.0',date:'16 مارس 2026',sections:[{type:'added',icon:'✨',items:['الإصدار الأول 🎉','تتبع الميزانية الأساسي']}]}
 ],
 de:[
+  {version:'4.3',date:'26. Mär 2026',sections:[{type:'added',icon:'✨',items:['💡 Intelligente Prognose — Monatsendstand-Vorhersage','⚡ Natürliche Spracheingabe — "Supermarkt 150" eingeben','📊 Wochenzeugnis — Noten von A+ bis F']}]},
   {version:'4.2',date:'26. Mär 2026',sections:[{type:'added',icon:'✨',items:['👥 Live-Nutzerzähler','🌍 Automatische Spracherkennung','📋 Änderungsprotokoll in 4 Sprachen']},{type:'fixed',icon:'🔧',items:['🛡️ AdSense-Richtlinienverstoß behoben','🚀 Splash-Screen mehrsprachig']}]},
   {version:'4.11',date:'21. Mär 2026',sections:[{type:'fixed',icon:'🔧',items:['📄 Übersetzungsfehler auf Berichtsseite behoben','🌐 EINNAHMEN/AUSGABEN Labels funktionieren in allen Sprachen']}]},
   {version:'4.1',date:'19. Mär 2026',sections:[{type:'added',icon:'✨',items:['📤 Mit Freunden teilen (WhatsApp)','📊 Wöchentliche Zusammenfassung','🏦 Bankfarben für Wallets','🔔 Abo- & Ratenerinnerungen']}]},
@@ -834,7 +887,7 @@ function showChangelog(){
 const L={
 tr:{
   // Nav
-  home:"Özet",analysis:"Analiz",goals:"Hedefler",wallets:"Cüzdanlar",debts:"Borçlar",installments:"Taksit",subs:"Abo",forex:"Döviz",report:"Rapor",projects:"Proje",settings:"Ayarlar",
+  home:"Özet",analysis:"Analiz",goals:"Hedefler",wallets:"Cüzdanlar",debts:"Borçlar",installments:"Taksit",subs:"Abo",forex:"Döviz",report:"Rapor",projects:"Proje",settings:"Ayarlar",forecast:"Tahmin",smartAdd:"⚡ Akıllı Ekle",weeklyGrade:"📊 Haftalık Karne",viewForecast:"💡 Detaylı Para Tahmini Görüntüle →",forecastTitle:"💡 Akıllı Para Tahmini",nlpPlaceholder:"örn: migros 150, maaş 15000...",
   // Header & Greeting
   goodMorning:"Günaydın",goodAfternoon:"İyi günler",goodEvening:"İyi akşamlar",goodNight:"İyi geceler",
   // Balance card
@@ -894,7 +947,7 @@ tr:{
   dailySummaryTitle:"Günün Özeti",todaySpent:"Bugün harcanan",todayRemaining:"Bugün kalan bütçe",motivationGood:"Harika gidiyorsun! 💪",motivationWarn:"Dikkatli harca! ⚡",motivationBad:"Bütçeni aştın! 🚨",noSpendToday:"Bugün hiç harcama yok 🎉"
 },
 en:{
-  home:"Overview",analysis:"Analytics",goals:"Goals",wallets:"Wallets",debts:"Debts",installments:"Installments",subs:"Subs",forex:"Forex",report:"Report",projects:"Projects",settings:"Settings",
+  home:"Overview",analysis:"Analytics",goals:"Goals",wallets:"Wallets",debts:"Debts",installments:"Installments",subs:"Subs",forex:"Forex",report:"Report",projects:"Projects",settings:"Settings",forecast:"Forecast",smartAdd:"⚡ Smart Add",weeklyGrade:"📊 Weekly Grade",viewForecast:"💡 View Detailed Forecast →",forecastTitle:"💡 Smart Forecast",nlpPlaceholder:"e.g. grocery 150, salary 15000...",
   goodMorning:"Good morning",goodAfternoon:"Good afternoon",goodEvening:"Good evening",goodNight:"Good night",
   totalBalance:"TOTAL BALANCE",income:"Income",expense:"Expense",
   dailyAvg:"Daily Average Spending",perDay:"/day",forecastTitle:"🔮 End of Month Forecast",savingsThisMonth:"Savings This Month",
@@ -932,7 +985,7 @@ en:{
   dailySummaryTitle:"Today's Summary",todaySpent:"Spent today",todayRemaining:"Remaining today",motivationGood:"You're doing great! 💪",motivationWarn:"Spend carefully! ⚡",motivationBad:"Over budget! 🚨",noSpendToday:"No spending today 🎉"
 },
 ar:{
-  home:"ملخص",analysis:"تحليل",goals:"أهداف",wallets:"محافظ",debts:"ديون",installments:"أقساط",subs:"اشتراك",forex:"عملات",report:"تقرير",projects:"مشاريع",settings:"إعدادات",
+  home:"ملخص",analysis:"تحليل",goals:"أهداف",wallets:"محافظ",debts:"ديون",installments:"أقساط",subs:"اشتراك",forex:"عملات",report:"تقرير",projects:"مشاريع",settings:"إعدادات",forecast:"توقعات",smartAdd:"⚡ إضافة ذكية",weeklyGrade:"📊 بطاقة أسبوعية",viewForecast:"💡 عرض التوقعات المفصلة →",forecastTitle:"💡 توقعات ذكية",nlpPlaceholder:"مثال: سوبرماركت 150...",
   goodMorning:"صباح الخير",goodAfternoon:"مساء الخير",goodEvening:"مساء الخير",goodNight:"تصبح على خير",
   totalBalance:"الرصيد الإجمالي",income:"الدخل",expense:"المصروفات",
   dailyAvg:"متوسط الإنفاق اليومي",perDay:"/يوم",forecastTitle:"🔮 توقعات نهاية الشهر",savingsThisMonth:"توفير هذا الشهر",
@@ -970,7 +1023,7 @@ ar:{
   dailySummaryTitle:"ملخص اليوم",todaySpent:"أنفق اليوم",todayRemaining:"المتبقي اليوم",motivationGood:"أنت تبلي بلاءً حسناً! 💪",motivationWarn:"أنفق بحذر! ⚡",motivationBad:"تجاوزت الميزانية! 🚨",noSpendToday:"لا إنفاق اليوم 🎉"
 },
 de:{
-  home:"Übersicht",analysis:"Analyse",goals:"Ziele",wallets:"Konten",debts:"Schulden",installments:"Raten",subs:"Abos",forex:"Devisen",report:"Bericht",projects:"Projekte",settings:"Einstellungen",
+  home:"Übersicht",analysis:"Analyse",goals:"Ziele",wallets:"Konten",debts:"Schulden",installments:"Raten",subs:"Abos",forex:"Devisen",report:"Bericht",projects:"Projekte",settings:"Einstellungen",forecast:"Prognose",smartAdd:"⚡ Smart Hinzufügen",weeklyGrade:"📊 Wochenzeugnis",viewForecast:"💡 Detaillierte Prognose anzeigen →",forecastTitle:"💡 Intelligente Prognose",nlpPlaceholder:"z.B. Supermarkt 150, Gehalt 15000...",
   goodMorning:"Guten Morgen",goodAfternoon:"Guten Tag",goodEvening:"Guten Abend",goodNight:"Gute Nacht",
   totalBalance:"GESAMTBILANZ",income:"Einnahmen",expense:"Ausgaben",
   dailyAvg:"Tägliche Durchschnittsausgaben",perDay:"/Tag",forecastTitle:"🔮 Monatsendprognose",savingsThisMonth:"Ersparnis diesen Monat",
@@ -1136,8 +1189,8 @@ function chgMonth(d){const dt=new Date(selMonth+"-01");dt.setMonth(dt.getMonth()
 function showPg(id){document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.getElementById(id).classList.add("active");if(id==="pageHome")render();if(id==="pageDetail")renderDetail()}
 
 function swTab(n,el){document.querySelectorAll(".tab").forEach(t=>t.classList.remove("on"));if(el)el.classList.add("on");
-  for(let i=0;i<=14;i++){const e=document.getElementById("t"+i);if(e)e.style.display=i===n?"block":"none"}
-  if(n===1)renderAnalytics();if(n===2)renderGoals();if(n===3)renderWallets();if(n===4){renderDebts();renderShared()}if(n===5)renderConverter();if(n===6){renderReport();renderComparison()}if(n===7)renderSettings();if(n===8)renderProjects();if(n===9)renderTaksits();if(n===10)renderSubs();if(n===11)fetchNews();if(n===12)initAI();if(n===14)initCalc()}
+  for(let i=0;i<=16;i++){const e=document.getElementById("t"+i);if(e)e.style.display=i===n?"block":"none"}
+  if(n===1)renderAnalytics();if(n===2)renderGoals();if(n===3)renderWallets();if(n===4){renderDebts();renderShared()}if(n===5)renderConverter();if(n===6){renderReport();renderComparison()}if(n===7)renderSettings();if(n===8)renderProjects();if(n===9)renderTaksits();if(n===10)renderSubs();if(n===11)fetchNews();if(n===12)initAI();if(n===14)initCalc();if(n===15)renderForecast()}
 
 function fetchWithTimeout(url,ms){var c=new AbortController();var tm=setTimeout(function(){c.abort()},ms);return fetch(url,{signal:c.signal}).finally(function(){clearTimeout(tm)})}
 async function fetchRates(){
@@ -2163,18 +2216,191 @@ function sidebarNav(n,el){
     if(t.getAttribute("onclick")&&t.getAttribute("onclick").includes("swTab("+n+","))t.classList.add("on");
   });
   // Show the correct tab content
-  for(let i=0;i<=14;i++){const e=document.getElementById("t"+i);if(e)e.style.display=i===n?"block":"none"}
-  if(n===1)renderAnalytics();if(n===2)renderGoals();if(n===3)renderWallets();if(n===4){renderDebts();renderShared()}if(n===5)renderConverter();if(n===6){renderReport();renderComparison()}if(n===7)renderSettings();if(n===8)renderProjects();if(n===9)renderTaksits();if(n===10)renderSubs();if(n===11)fetchNews();if(n===12)initAI();if(n===14)initCalc();
+  for(let i=0;i<=16;i++){const e=document.getElementById("t"+i);if(e)e.style.display=i===n?"block":"none"}
+  if(n===1)renderAnalytics();if(n===2)renderGoals();if(n===3)renderWallets();if(n===4){renderDebts();renderShared()}if(n===5)renderConverter();if(n===6){renderReport();renderComparison()}if(n===7)renderSettings();if(n===8)renderProjects();if(n===9)renderTaksits();if(n===10)renderSubs();if(n===11)fetchNews();if(n===12)initAI();if(n===14)initCalc();if(n===15)renderForecast();
   // On mobile, make sure we're on home page
   showPg("pageHome");
 }
 
 // Init
-load();loadScale();checkPinOnStart();processRecurring();render();fetchRates();translateUI();checkWelcome();
+load();loadScale();checkPinOnStart();processRecurring();render();fetchRates();translateUI();renderWeeklyKarne();checkWelcome();
 setTimeout(function(){if(!D.lastVersion||D.lastVersion!==APP_VERSION){showChangelog()}},1200);
 setTimeout(function(){checkWeeklySummary()},2500);
 setTimeout(function(){checkPaymentReminders()},4000);
 setTimeout(()=>{var s=document.getElementById("splash");if(s){s.classList.add("out");setTimeout(()=>s.style.display="none",500)}},1800);
+// ===== FEATURE 1: SMART FORECAST =====
+function renderForecast(){
+  var me=D.entries.filter(function(e){return e.month===selMonth});
+  var exp=me.filter(function(e){return e.type==='expense'}).reduce(function(s,e){return s+e.amount},0);
+  var inc=me.filter(function(e){return e.type==='income'}).reduce(function(s,e){return s+e.amount},0);
+  var ym=selMonth.split('-'),y=parseInt(ym[0]),m=parseInt(ym[1]);
+  var dim=new Date(y,m,0).getDate();
+  var cd=selMonth===gMK()?new Date().getDate():dim;
+  var daysLeft=dim-cd;
+  var dailyAvg=cd>0?exp/cd:0;
+  var forecastExp=Math.round(dailyAvg*dim);
+  var forecastBal=inc-forecastExp;
+  // Big number
+  var bn=document.getElementById('fcBigNum');
+  bn.textContent=fmt(forecastBal);
+  bn.style.color=forecastBal>=0?'var(--accent)':'var(--red)';
+  document.getElementById('fcBigLabel').textContent=curLang==='en'?'Predicted end-of-month balance':curLang==='de'?'Voraussichtlicher Monatsendstand':curLang==='ar'?'الرصيد المتوقع نهاية الشهر':'Tahmini ay sonu bakiye';
+  // Warning
+  var warn=document.getElementById('fcWarning');
+  if(D.budget>0&&forecastExp>D.budget){
+    warn.style.display='block';warn.style.background='var(--rbg)';warn.style.border='1px solid var(--rb)';warn.style.color='var(--red)';
+    warn.textContent='⚠️ '+(curLang==='en'?'You will exceed your budget by '+fmt(forecastExp-D.budget)+'!':curLang==='de'?'Budget wird um '+fmt(forecastExp-D.budget)+' überschritten!':'Bütçeni '+fmt(forecastExp-D.budget)+' aşacaksın!');
+  }else if(forecastBal<0){
+    warn.style.display='block';warn.style.background='var(--rbg)';warn.style.border='1px solid var(--rb)';warn.style.color='var(--red)';
+    warn.textContent='🚨 '+(curLang==='en'?'You\'re heading into negative!':'Eksi bakiyeye doğru gidiyorsun!');
+  }else{
+    warn.style.display='block';warn.style.background='var(--abg)';warn.style.border='1px solid var(--ab)';warn.style.color='var(--accent)';
+    warn.textContent='✅ '+(curLang==='en'?'You\'re on track! Keep it up!':'Güzel gidiyorsun! Devam et!');
+  }
+  // Stats
+  document.getElementById('fcDailyAvg').textContent=fmt(Math.round(dailyAvg));
+  document.getElementById('fcDaysLeft').textContent=daysLeft+(curLang==='en'?' days':curLang==='de'?' Tage':' gün');
+  // Velocity: compare with last month
+  var pm=gMK(new Date(y,m-2,1));var pmExp=D.entries.filter(function(e){return e.month===pm&&e.type==='expense'}).reduce(function(s,e){return s+e.amount},0);
+  var pmDim=new Date(y,m-1,0).getDate();var pmDailyAvg=pmDim>0?pmExp/pmDim:0;
+  var velPct=pmDailyAvg>0?Math.round(((dailyAvg-pmDailyAvg)/pmDailyAvg)*100):0;
+  document.getElementById('fcVelocity').innerHTML=(velPct>0?'↑':'↓')+Math.abs(velPct)+'%';
+  document.getElementById('fcVelocity').style.color=velPct>0?'var(--red)':'var(--accent)';
+  // Safe daily
+  var safeDaily=daysLeft>0&&inc>exp?Math.round((inc-exp)/daysLeft):0;
+  document.getElementById('fcSafeDaily').textContent=fmt(safeDaily);
+  // Category breakdown
+  var cats={};me.filter(function(e){return e.type==='expense'}).forEach(function(e){cats[e.category]=(cats[e.category]||0)+e.amount});
+  var catArr=Object.keys(cats).map(function(k){return{id:k,amt:cats[k],forecast:Math.round((cats[k]/cd)*dim)}}).sort(function(a,b){return b.forecast-a.forecast});
+  var catHtml='';catArr.slice(0,6).forEach(function(c){
+    var ci=gC(c.id);var pct=forecastExp>0?Math.round((c.forecast/forecastExp)*100):0;
+    catHtml+='<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)"><span style="font-size:16px">'+ci.i+'</span><div style="flex:1"><div style="font-size:11px;font-weight:600">'+ci.l+'</div><div class="prog-bar" style="height:4px;margin-top:3px"><div class="prog-fill pg" style="width:'+pct+'%"></div></div></div><div style="text-align:right"><div style="font-size:12px;font-weight:700">'+fmt(c.forecast)+'</div><div style="font-size:9px;color:var(--t3)">'+pct+'%</div></div></div>';
+  });
+  document.getElementById('fcCatBreakdown').innerHTML=catHtml;
+  // Day chart (mini bar chart)
+  var dayData=[];for(var i=1;i<=dim;i++){
+    var ds=selMonth+'-'+String(i).padStart(2,'0');
+    var dayExp=me.filter(function(e){return e.type==='expense'&&e.date&&e.date.slice(0,10)===ds}).reduce(function(s,e){return s+e.amount},0);
+    dayData.push(dayExp);
+  }
+  var maxDay=Math.max.apply(null,dayData)||1;
+  var chartHtml='';dayData.forEach(function(v,i){
+    var h=Math.max(2,Math.round((v/maxDay)*80));var isToday=selMonth===gMK()&&(i+1)===new Date().getDate();
+    var color=isToday?'var(--accent)':i<cd?'var(--blue)':'var(--glass)';
+    chartHtml+='<div style="flex:1;min-width:2px;height:'+h+'px;border-radius:2px;background:'+color+';opacity:'+(i<cd?1:0.3)+'" title="'+(i+1)+'. gün: '+fmt(v)+'"></div>';
+  });
+  document.getElementById('fcDayChart').innerHTML=chartHtml;
+  // AI Tips
+  var tips=[];
+  if(velPct>20)tips.push(curLang==='en'?'📈 Spending is '+velPct+'% higher than last month. Review your expenses.':'📈 Harcaman geçen aya göre %'+velPct+' arttı. Giderlerini gözden geçir.');
+  if(catArr.length>0)tips.push((curLang==='en'?'💸 Biggest expense: ':'💸 En çok harcama: ')+gC(catArr[0].id).l+' ('+fmt(catArr[0].forecast)+')');
+  if(safeDaily>0)tips.push((curLang==='en'?'✅ Safe daily spending limit: ':'✅ Güvenli günlük harcama limiti: ')+fmt(safeDaily));
+  if(daysLeft<=5&&daysLeft>0)tips.push(curLang==='en'?'⏰ Only '+daysLeft+' days left this month!':'⏰ Ay sonuna sadece '+daysLeft+' gün kaldı!');
+  if(forecastBal<0)tips.push(curLang==='en'?'🚨 Reduce daily spending to '+fmt(Math.round(dailyAvg*0.7))+' to stay positive.':'🚨 Pozitif kalmak için günlük harcamayı '+fmt(Math.round(dailyAvg*0.7))+'\'ye düşür.');
+  document.getElementById('fcTips').innerHTML=tips.map(function(tip){return'<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--t2)">'+tip+'</div>'}).join('');
+}
+
+// ===== FEATURE 2: NLP QUICK ADD =====
+function parseNLP(){
+  var input=document.getElementById('nlpInput').value.trim();
+  if(!input){showToast(curLang==='en'?'Type something!':'Bir şey yaz!');return}
+  var result=document.getElementById('nlpResult');
+  // Keyword → category mapping
+  var catMap={
+    // Expense
+    'migros':'market','bim':'market','a101':'market','şok':'market','sok':'market','carrefour':'market','market':'market','grocery':'market',
+    'yemek':'yemek','burger':'yemek','pizza':'yemek','kebap':'yemek','food':'yemek','restaurant':'yemek','restoran':'yemek','mcdonalds':'yemek','starbucks':'yemek','cafe':'yemek','kahve':'yemek','coffee':'yemek','lunch':'yemek','dinner':'yemek','öğle':'yemek','akşam yemeği':'yemek',
+    'uber':'ulasim','taksi':'ulasim','taxi':'ulasim','benzin':'ulasim','gas':'ulasim','otobüs':'ulasim','bus':'ulasim','metro':'ulasim','vapur':'ulasim','ulaşım':'ulasim','transport':'ulasim',
+    'kira':'kira','rent':'kira','ev':'kira',
+    'okul':'egitim','üniversite':'egitim','kitap':'egitim','book':'egitim','kurs':'egitim','course':'egitim','udemy':'egitim','eğitim':'egitim',
+    'sinema':'eglence','film':'eglence','oyun':'eglence','game':'eglence','netflix':'eglence','spotify':'eglence','eğlence':'eglence','entertainment':'eglence','konser':'eglence',
+    'zara':'giyim','hm':'giyim','lcw':'giyim','giyim':'giyim','ayakkabı':'giyim','clothing':'giyim','kıyafet':'giyim',
+    'eczane':'saglik','ilaç':'saglik','doktor':'saglik','hastane':'saglik','hospital':'saglik','pharmacy':'saglik','sağlık':'saglik',
+    'telefon':'teknoloji','laptop':'teknoloji','bilgisayar':'teknoloji','phone':'teknoloji','tech':'teknoloji','apple':'teknoloji','samsung':'teknoloji','elektronik':'teknoloji',
+    'fatura':'abonelik','internet':'abonelik','turkcell':'abonelik','vodafone':'abonelik','türk telekom':'abonelik','subscription':'abonelik','abonelik':'abonelik',
+    // Income
+    'maaş':'aile','salary':'aile','maas':'aile','gelir':'aile','income':'aile',
+    'burs':'burs','scholarship':'burs',
+    'freelance':'parttime','parttime':'parttime','part-time':'parttime','iş':'parttime','job':'parttime',
+    'dolar':'dolar_gelir','dollar':'dolar_gelir'
+  };
+  var incomeKeys=['maaş','salary','maas','gelir','income','burs','scholarship','freelance','parttime','part-time','iş','job','dolar','dollar'];
+  // Parse amount
+  var amtMatch=input.match(/(\d+[.,]?\d*)/);
+  if(!amtMatch){result.style.display='block';result.style.color='var(--red)';result.textContent=curLang==='en'?'Could not find an amount. Example: "migros 150"':'Tutar bulunamadı. Örnek: "migros 150"';return}
+  var amount=parseFloat(amtMatch[1].replace(',','.'));
+  // Parse category
+  var words=input.toLowerCase().replace(/[0-9.,]/g,' ').trim().split(/\s+/);
+  var foundCat=null;var foundKey='';var isIncome=false;
+  for(var w=0;w<words.length;w++){
+    if(catMap[words[w]]){foundCat=catMap[words[w]];foundKey=words[w];
+      if(incomeKeys.indexOf(words[w])!==-1)isIncome=true;break}
+    // 2-word check
+    if(w<words.length-1){var tw=words[w]+' '+words[w+1];if(catMap[tw]){foundCat=catMap[tw];foundKey=tw;
+      if(incomeKeys.indexOf(tw)!==-1)isIncome=true;break}}
+  }
+  if(!foundCat)foundCat=isIncome?'diger_gelir':'diger_gider';
+  var type=isIncome?'income':'expense';
+  var ci=gC(foundCat);
+  // Add entry
+  var entry={id:'e'+Date.now(),type:type,category:foundCat,amount:amount,note:foundKey||input.replace(/[0-9.,]/g,'').trim(),month:gMK(),date:new Date().toISOString(),wallet:'nakit'};
+  D.entries.push(entry);save();render();renderWeeklyKarne();
+  // Show result
+  result.style.display='block';result.style.color='var(--accent)';
+  result.innerHTML=ci.i+' <b>'+ci.l+'</b> — '+(type==='income'?'+':'-')+fmt(amount)+' '+(curLang==='en'?'added!':'eklendi!');
+  document.getElementById('nlpInput').value='';
+  showToast(ci.i+' '+fmt(amount)+' '+(curLang==='en'?'added':'eklendi')+' ✓');
+  setTimeout(function(){result.style.display='none'},4000);
+}
+// Enter key for NLP
+document.getElementById('nlpInput').addEventListener('keydown',function(e){if(e.key==='Enter')parseNLP()});
+
+// ===== FEATURE 3: WEEKLY REPORT CARD (KARNE) =====
+function renderWeeklyKarne(){
+  var sec=document.getElementById('weeklyKarneSec');if(!sec)return;
+  var now=new Date();var dayOfWeek=now.getDay()||7;
+  var weekStart=new Date(now);weekStart.setDate(now.getDate()-dayOfWeek+1);weekStart.setHours(0,0,0,0);
+  var weekEnd=new Date(weekStart);weekEnd.setDate(weekStart.getDate()+6);weekEnd.setHours(23,59,59,999);
+  // This week's entries
+  var weekEntries=D.entries.filter(function(e){if(!e.date)return false;var d=new Date(e.date);return d>=weekStart&&d<=weekEnd});
+  var weekExp=weekEntries.filter(function(e){return e.type==='expense'}).reduce(function(s,e){return s+e.amount},0);
+  var weekInc=weekEntries.filter(function(e){return e.type==='income'}).reduce(function(s,e){return s+e.amount},0);
+  var txCount=weekEntries.length;
+  if(txCount===0){sec.style.display='none';return}
+  sec.style.display='block';
+  // Last week for comparison
+  var lwStart=new Date(weekStart);lwStart.setDate(lwStart.getDate()-7);
+  var lwEnd=new Date(weekStart);lwEnd.setTime(lwEnd.getTime()-1);
+  var lwEntries=D.entries.filter(function(e){if(!e.date)return false;var d=new Date(e.date);return d>=lwStart&&d<=lwEnd});
+  var lwExp=lwEntries.filter(function(e){return e.type==='expense'}).reduce(function(s,e){return s+e.amount},0);
+  // Grade calculation
+  var grade,gradeColor,gradeText;
+  var ratio=weekInc>0?(weekExp/weekInc):2;
+  var changeVsLastWeek=lwExp>0?((weekExp-lwExp)/lwExp)*100:0;
+  if(ratio<=0.3){grade='A+';gradeColor='#34d399';gradeText=curLang==='en'?'Incredible! Spending master!':'İnanılmaz! Harcama ustası!'}
+  else if(ratio<=0.5){grade='A';gradeColor='#34d399';gradeText=curLang==='en'?'Great control!':'Harika kontrol!'}
+  else if(ratio<=0.7){grade='B+';gradeColor='#6ee7b7';gradeText=curLang==='en'?'Good, keep going!':'İyi gidiyorsun!'}
+  else if(ratio<=0.85){grade='B';gradeColor='#fbbf24';gradeText=curLang==='en'?'Decent, watch spending':'Fena değil, dikkat et'}
+  else if(ratio<=1.0){grade='C';gradeColor='#f59e0b';gradeText=curLang==='en'?'Spending equals income!':'Harcama gelire eşit!'}
+  else if(ratio<=1.3){grade='D';gradeColor='#f87171';gradeText=curLang==='en'?'Spending exceeds income!':'Harcama geliri aşıyor!'}
+  else{grade='F';gradeColor='#ef4444';gradeText=curLang==='en'?'Critical! Review expenses!':'Kritik! Harcamaları gözden geçir!'}
+  // Render
+  document.getElementById('karneGrade').textContent=grade;
+  document.getElementById('karneGrade').style.color=gradeColor;document.getElementById('karneGrade').style.borderColor=gradeColor+'40';document.getElementById('karneGrade').style.background=gradeColor+'15';
+  document.getElementById('karneTitle').textContent=gradeText;
+  document.getElementById('karneSub').textContent=(curLang==='en'?'Week of ':'Hafta: ')+weekStart.getDate()+'.'+(weekStart.getMonth()+1)+' - '+weekEnd.getDate()+'.'+(weekEnd.getMonth()+1);
+  // Stats
+  function miniStat(label,val,color){return'<div style="text-align:center;padding:8px;border-radius:10px;background:var(--card);border:1px solid var(--border)"><div style="font-size:9px;color:var(--t3)">'+label+'</div><div style="font-size:14px;font-weight:800;color:'+color+'">'+val+'</div></div>'}
+  document.getElementById('karneStats').innerHTML=miniStat(curLang==='en'?'Spent':'Harcama',fmt(weekExp),'var(--red)')+miniStat(curLang==='en'?'Income':'Gelir',fmt(weekInc),'var(--accent)')+miniStat(curLang==='en'?'Txns':'İşlem',txCount,'var(--blue)');
+  // Trend
+  var trendIcon,trendText,trendColor;
+  if(lwExp===0){trendIcon='📊';trendText=curLang==='en'?'First week being tracked!':'İlk hafta takip ediliyor!';trendColor='var(--blue)'}
+  else if(changeVsLastWeek<-10){trendIcon='📉';trendText=(curLang==='en'?'Down ':'')+'%'+Math.abs(Math.round(changeVsLastWeek))+(curLang==='en'?' vs last week':' azaldı (geçen haftaya göre)');trendColor='var(--accent)'}
+  else if(changeVsLastWeek>10){trendIcon='📈';trendText=(curLang==='en'?'Up ':'')+'%'+Math.abs(Math.round(changeVsLastWeek))+(curLang==='en'?' vs last week':' arttı (geçen haftaya göre)');trendColor='var(--red)'}
+  else{trendIcon='➡️';trendText=curLang==='en'?'Stable compared to last week':'Geçen haftayla aynı seviyede';trendColor='var(--gold)'}
+  document.getElementById('karneTrend').innerHTML='<span style="margin-right:4px">'+trendIcon+'</span><span style="color:'+trendColor+';font-weight:600">'+trendText+'</span>';
+}
+
 // AdSense: SADECE içerik varsa yükle (Google politikası)
 function showAdsIfContent(){
   var hasContent=D.entries&&D.entries.length>=3;
