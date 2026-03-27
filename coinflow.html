@@ -2487,23 +2487,41 @@ var _adminData={totalVisits:0,activeNow:0,todayVisits:0};
     var ab=document.getElementById('adminBtnWrap');if(ab)ab.style.display='block';
     var badge=document.getElementById('liveUserBadge');if(badge)badge.style.display='inline-flex';
   }
-  // Track visit
+  // Track visits locally
   var today=new Date().toISOString().slice(0,10);
   var visitLog=JSON.parse(localStorage.getItem('cf_visit_log')||'{}');
   visitLog[today]=(visitLog[today]||0)+1;
-  // Keep only last 30 days
   var keys=Object.keys(visitLog).sort().slice(-30);
   var cleaned={};keys.forEach(function(k){cleaned[k]=visitLog[k]});
   localStorage.setItem('cf_visit_log',JSON.stringify(cleaned));
   _adminData.todayVisits=cleaned[today]||0;
-  // CountAPI
-  fetch('https://api.countapi.xyz/hit/coinflow-dedigital/visits').then(function(r){return r.json()}).then(function(d){
-    _adminData.totalVisits=d.value||0;
-    _adminData.activeNow=Math.max(1,Math.floor(_adminData.totalVisits*0.015)+Math.floor(Math.random()*3));
-    if(isAdmin){
-      var lc=document.getElementById('liveUserCount');if(lc)lc.textContent=_adminData.activeNow;
+  // Calculate total from local log
+  var totalLocal=0;keys.forEach(function(k){totalLocal+=cleaned[k]});
+  _adminData.totalVisits=totalLocal;
+  _adminData.activeNow=_adminData.todayVisits;
+  // Try multiple counter APIs with fallback
+  var counterAPIs=[
+    {url:'https://api.counterapi.dev/v1/coinflow-dedigital/visits/up',parse:function(d){return d.count}},
+    {url:'https://api.countapi.xyz/hit/coinflow-dedigital/visits',parse:function(d){return d.value}}
+  ];
+  (function tryCounter(i){
+    if(i>=counterAPIs.length){
+      // All APIs failed, use local data
+      if(isAdmin){var lc=document.getElementById('liveUserCount');if(lc)lc.textContent=_adminData.activeNow}
+      return;
     }
-  }).catch(function(){});
+    fetch(counterAPIs[i].url,{signal:AbortSignal.timeout?AbortSignal.timeout(4000):undefined})
+      .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json()})
+      .then(function(d){
+        var val=counterAPIs[i].parse(d);
+        if(val&&val>0){
+          _adminData.totalVisits=val;
+          _adminData.activeNow=Math.max(1,Math.floor(val*0.015)+Math.floor(Math.random()*3));
+        }
+        if(isAdmin){var lc=document.getElementById('liveUserCount');if(lc)lc.textContent=_adminData.activeNow}
+      })
+      .catch(function(){tryCounter(i+1)});
+  })(0);
 })();
 
 function openAdminPanel(){
@@ -2591,7 +2609,8 @@ function testAllAPIs(){
     {name:'Frankfurter',url:'https://api.frankfurter.app/latest?from=USD&to=TRY'},
     {name:'ExchangeRate',url:'https://api.exchangerate-api.com/v4/latest/USD'},
     {name:'Open ER',url:'https://open.er-api.com/v6/latest/USD'},
-    {name:'CountAPI',url:'https://api.countapi.xyz/get/coinflow-dedigital/visits'}
+    {name:'CounterAPI.dev',url:'https://api.counterapi.dev/v1/coinflow-dedigital/visits'},
+    {name:'CountAPI.xyz',url:'https://api.countapi.xyz/get/coinflow-dedigital/visits'}
   ];
   var el=document.getElementById('adAPIStatus');if(!el)return;
   el.innerHTML='Testing...';
