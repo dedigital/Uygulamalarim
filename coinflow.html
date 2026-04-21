@@ -267,8 +267,7 @@ canvas{max-width:100%!important}
 .wk-bw{flex:1;height:5px;border-radius:5px;background:var(--glass);margin:0 8px;overflow:hidden}
 .wk-bf{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--red),#fb923c)}
 .wk-v{font-size:10px;font-weight:600;color:var(--t2);width:55px;text-align:right}
-.ad-slot{margin:8px 16px;padding:14px;border-radius:16px;background:var(--card);border:1px solid var(--border);text-align:center;min-height:60px;overflow:hidden;backdrop-filter:blur(8px);position:relative;z-index:1}
-.ad-slot-label{font-size:7px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;font-weight:600}
+/* ad-slot styles removed for compliance */
 
 /* Insight cards */
 .insight-card{background:var(--card);border-radius:14px;padding:13px 15px;border:1px solid var(--border);margin-bottom:6px;display:flex;align-items:flex-start;gap:11px;backdrop-filter:blur(20px);box-shadow:var(--shadow)}
@@ -356,7 +355,7 @@ canvas{max-width:100%!important}
   .da,.ss,.db{margin-left:20px;margin-right:20px}
   .tabs{margin:0 20px 14px}
   .hdr{padding:24px 20px 14px}
-  .ad-slot{margin:10px 20px}
+  /* ad-slot removed */
   .entry{padding:14px 16px}
   .fab-w{max-width:680px}
   .mbox{max-width:520px;border-radius:28px 28px 0 0;padding:12px 28px calc(28px + env(safe-area-inset-bottom))}
@@ -384,7 +383,7 @@ canvas{max-width:100%!important}
   .sec{padding:0 24px;margin-top:18px}
   .da,.ss,.db{margin-left:24px;margin-right:24px}
   .hdr{padding:28px 24px 16px}
-  .ad-slot{margin:12px 24px}
+  /* ad-slot removed */
   .top-bar{padding:24px 24px 14px}
   .fs{padding:0 24px}
   .chart-w canvas{max-height:260px}
@@ -716,7 +715,7 @@ canvas{max-width:100%!important}
     <div id="tickerWrap" style="margin:0 16px 8px;overflow:hidden;border-radius:12px;background:var(--card);border:1px solid var(--border);padding:8px 0"><div id="tickerTrack" style="display:flex;gap:20px;animation:tickerScroll 25s linear infinite;white-space:nowrap;padding:0 10px"></div></div>
     <!-- Smart Insights -->
     <div id="insightsSec" class="sec" style="margin-top:6px;display:none"><div class="sh"><div class="st" data-t="smartTips">🧠 Akıllı İpuçları</div></div><div id="insightsL"></div></div>
-    <div class="ad-slot" id="adSlot1" style="display:none"></div>
+    <!-- ad placeholder removed for adsense compliance -->
     <div class="sec" style="margin-top:6px"><div class="sh"><div class="st" data-t="budgetLimit">Bütçe Limiti</div><button class="lnk" onclick="openBudgetModal()" id="budgetBtn">Belirle</button></div><div id="budgetC" class="crd"></div></div>
     <!-- Heatmap Calendar -->
     <div class="sec" style="margin-top:8px"><div class="sh"><div class="st" data-t="spendingCalendar">📅 Harcama Takvimi</div></div><div class="crd"><div class="heatmap" id="heatmapGrid"></div></div></div>
@@ -749,7 +748,7 @@ canvas{max-width:100%!important}
     <!-- Forecast Tab Link -->
     <div class="sec" style="margin-top:8px"><button class="sbtn" style="margin:0;width:100%;background:linear-gradient(135deg,rgba(52,211,153,0.1),rgba(59,130,246,0.1));border:1px solid var(--ab);color:var(--accent)" onclick="swTab(15,null)" data-t="viewForecast">💡 Detaylı Para Tahmini Görüntüle →</button></div>
     <div id="quickAddSec" class="sec" style="display:none;margin-top:8px"><div class="sh"><div class="st" data-t="quickAdd">⚡ Hızlı Ekle</div></div><div id="quickAddBtns" style="display:flex;gap:4px;flex-wrap:wrap"></div></div>
-    <div class="ad-slot" id="adSlot2" style="display:none"></div>
+    <!-- ad placeholder removed for adsense compliance -->
     <div class="sec" style="margin-top:10px"><div class="sh"><div class="st" data-t="recentTx">Son İşlemler</div><button id="seeAll" class="lnk" style="display:none" onclick="showPg('pageDetail')">Tümü</button></div><div id="recentL"></div></div>
   </div>
   <div id="t1" style="display:none"><div class="sec" style="margin-top:0"><div class="sh"><div class="st" data-t="analysis">Aylık Karşılaştırma</div></div><div class="chart-w"><canvas id="monthlyChart"></canvas></div></div><div class="sec"><div class="sh"><div class="st" data-t="analysis">Pasta Grafik</div></div><div class="chart-w"><canvas id="pieChart"></canvas></div></div><div class="sec"><div class="sh"><div class="st" data-t="analysis">Haftalık Harcama</div></div><div id="weeklyBrk"></div></div><div class="sec"><div class="sh"><div class="st" data-t="forex">Dolar Kur Grafiği</div></div><div class="chart-w"><canvas id="curChart"></canvas></div></div></div>
@@ -2663,30 +2662,8 @@ function renderWeeklyKarne(){
   document.getElementById('karneTrend').innerHTML='<span style="margin-right:4px">'+trendIcon+'</span><span style="color:'+trendColor+';font-weight:600">'+trendText+'</span>';
 }
 
-// AdSense: SADECE içerik varsa yükle (Google politikası)
-function showAdsIfContent(){
-  var hasContent=D.entries&&D.entries.length>=3;
-  if(!hasContent)return; // İçerik yoksa AdSense hiç yüklenmesin
-  // AdSense scriptini dinamik yükle
-  var scr=document.createElement("script");
-  scr.async=true;
-  scr.src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6424185514673104";
-  scr.crossOrigin="anonymous";
-  scr.onload=function(){
-    var s1=document.getElementById("adSlot1"),s2=document.getElementById("adSlot2");
-    if(s1){
-      s1.innerHTML='<div class="ad-slot-label">reklam</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6424185514673104" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>';
-      s1.style.display="block";
-    }
-    if(s2){
-      s2.innerHTML='<div class="ad-slot-label">reklam</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6424185514673104" data-ad-slot="2222222222" data-ad-format="fluid" data-ad-layout-key="-6t+ed+2i-1n-4w"></ins>';
-      s2.style.display="block";
-    }
-    try{(adsbygoogle=window.adsbygoogle||[]).push({});(adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){}
-  };
-  document.head.appendChild(scr);
-}
-setTimeout(showAdsIfContent,3000);
+// AdSense: TAMAMEN KALDIRILDI - ihlal çözülene kadar
+// İhlal kapandıktan sonra gerçek slot ID'leriyle yeniden eklenecek
 
 // ===== ADMIN PANEL =====
 var _adminData={totalVisits:0,activeNow:0,todayVisits:0};
@@ -2773,7 +2750,7 @@ function openAdminPanel(){
   document.getElementById('adHealthInfo').innerHTML=[
     '🏥 Status: <b>'+(errors.length===0?'✅ Healthy':'⚠️ '+errors.length+' issues')+'</b>',
     '⚙️ Service Worker: <b>'+swStatus+'</b>',
-    '📊 AdSense: <b>'+(D.entries.length>=3?'✅ Will load ('+D.entries.length+' entries)':'🚫 Disabled (<3 entries)')+'</b>',
+    '📊 AdSense: <b>🚫 Removed (compliance fix)</b>',
     '💱 USD Rate: <b>₺'+usdRate.toFixed(4)+'</b>',
     '💱 EUR Rate: <b>₺'+eurRate.toFixed(4)+'</b>',
     '💱 GBP Rate: <b>₺'+gbpRate.toFixed(4)+'</b>',
