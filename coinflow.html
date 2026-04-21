@@ -8,8 +8,14 @@
 <meta name="apple-mobile-web-app-title" content="CoinFlow">
 <meta name="theme-color" content="#050509">
 <meta name="color-scheme" content="dark">
-<title>CoinFlow</title>
-<!-- AdSense: dinamik yüklenir, sadece içerik varsa -->
+<title>CoinFlow - Free Budget Tracker & Expense Manager</title>
+<meta name="description" content="CoinFlow is a free, privacy-first budget tracker. Track income & expenses, set savings goals, get AI-powered insights, forecast your finances. No signup required. Your data stays on your device.">
+<meta name="keywords" content="budget tracker, expense manager, money management, savings goals, financial health, free app, PWA, personal finance">
+<meta name="author" content="DE Digital">
+<meta property="og:title" content="CoinFlow - Smart Budget Tracker">
+<meta property="og:description" content="Track your money, forecast your future. Free, private, no signup.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dedigital.github.io/coinflow.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
@@ -456,6 +462,41 @@ canvas{max-width:100%!important}
 <body>
 <!-- Ambient Background -->
 <div class="ambient-bg"><div class="ambient-orb"></div><div class="ambient-orb"></div><div class="ambient-orb"></div></div>
+
+<!-- SEO Content for Google (visible to crawlers, hidden after app loads) -->
+<article id="seoContent" style="padding:20px;max-width:800px;margin:0 auto;color:#ccc;font-family:sans-serif;line-height:1.8">
+  <h1 style="font-size:28px;color:#34d399">CoinFlow - Free Smart Budget Tracker</h1>
+  <p>CoinFlow is a free, privacy-first personal finance app that helps you track your income and expenses, set savings goals, and take control of your money. Built as a Progressive Web App (PWA), it works on any device — no download or signup required.</p>
+  <h2 style="font-size:20px;color:#60a5fa">Features</h2>
+  <ul>
+    <li><strong>Income & Expense Tracking</strong> — Log transactions with 16+ categories, custom categories, receipt photos</li>
+    <li><strong>Smart Forecast</strong> — AI-powered end-of-month balance prediction based on your spending patterns</li>
+    <li><strong>Natural Language Input</strong> — Type "grocery 150" to auto-add transactions with category detection</li>
+    <li><strong>Weekly Report Card</strong> — Get graded A+ to F based on your spending habits</li>
+    <li><strong>Budget Simulator</strong> — "What if I cut this expense?" slider-based scenario planning</li>
+    <li><strong>Daily Missions</strong> — Gamified challenges: No-Spend Days, Budget Master, streak tracking</li>
+    <li><strong>Savings Goals</strong> — Set targets and track progress with visual indicators</li>
+    <li><strong>Debt Tracker</strong> — Monitor what you owe and what others owe you</li>
+    <li><strong>Live Currency Converter</strong> — Real-time USD, EUR, GBP, TRY rates from multiple APIs</li>
+    <li><strong>Installment & Subscription Tracking</strong> — Never miss a payment</li>
+    <li><strong>Charts & Analytics</strong> — Monthly comparisons, category breakdowns, spending heatmap</li>
+    <li><strong>Financial Health Score</strong> — 0-100 gauge measuring your overall financial wellness</li>
+    <li><strong>Multi-language</strong> — Turkish, English, Arabic, German</li>
+    <li><strong>Themes</strong> — 12 color themes, dark/light/system mode</li>
+    <li><strong>100% Private</strong> — All data stored locally on your device, never sent to any server</li>
+  </ul>
+  <h2 style="font-size:20px;color:#60a5fa">Why CoinFlow?</h2>
+  <p>Unlike other budget apps, CoinFlow requires no account creation, no email, no phone number. Your financial data is stored only in your browser's local storage. No one — not even us — can see your data. It's completely free with no hidden fees.</p>
+  <p>Built by <a href="https://www.instagram.com/dedigital.dev/" style="color:#34d399">DE Digital</a>, a web development studio based in Turkey, building digital experiences for businesses worldwide.</p>
+  <h2 style="font-size:20px;color:#60a5fa">How to Use</h2>
+  <p>Simply open CoinFlow in your browser, enter your name, and start tracking your finances. Add income and expenses, set a monthly budget, and watch your financial health improve. You can install it as an app on your phone by tapping "Add to Home Screen" in your browser menu.</p>
+</article>
+<noscript>
+  <div style="padding:40px;text-align:center;font-family:sans-serif">
+    <h1>CoinFlow - Budget Tracker</h1>
+    <p>CoinFlow requires JavaScript to run. Please enable JavaScript in your browser settings.</p>
+  </div>
+</noscript>
 
 <!-- Splash -->
 <div id="splash">
@@ -2350,7 +2391,7 @@ load();loadScale();checkPinOnStart();processRecurring();render();fetchRates();tr
 setTimeout(function(){if(!D.lastVersion||D.lastVersion!==APP_VERSION){showChangelog()}},1200);
 setTimeout(function(){checkWeeklySummary()},2500);
 setTimeout(function(){checkPaymentReminders()},4000);
-setTimeout(()=>{var s=document.getElementById("splash");if(s){s.classList.add("out");setTimeout(()=>s.style.display="none",500)}},1800);
+setTimeout(()=>{var s=document.getElementById("splash");if(s){s.classList.add("out");setTimeout(()=>s.style.display="none",500)}var seo=document.getElementById("seoContent");if(seo)seo.style.display="none"},1800);
 // ===== FEATURE 1: SMART FORECAST =====
 function renderForecast(){
   var me=D.entries.filter(function(e){return e.month===selMonth});
